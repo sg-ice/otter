@@ -1,0 +1,2007 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Otter 🦦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#08141a; --panel:#0d2029; --panel-2:#123039; --panel-line:#1e4d55;
+  --amber:#2e8f8a; --amber-bright:#5fd3c4; --amber-dim:#1a5a58;
+  --sage:#4f8f6a; --sage-dim:#264a38;
+  --parchment:#dff0ec; --muted:#7ba3a6;
+  --ember:#c1503a; --ember-bright:#e07a5f;
+  --radius:16px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(circle at 15% 10%, rgba(46,143,138,0.18), transparent 45%),
+    radial-gradient(circle at 85% 12%, rgba(38,74,56,0.20), transparent 45%),
+    var(--ink);
+  color:var(--parchment);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+}
+h1,h2,h3{font-family:'Fraunces',serif; color:var(--amber-bright); margin:0 0 4px;}
+h2{font-size:1.15rem;}
+.mono{font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums;}
+#app{max-width:1280px;margin:0 auto;padding:28px 22px 80px;}
+.top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:16px;}
+.eyebrow{font-size:.72rem;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
+.subtitle{color:var(--muted);font-size:.9rem;max-width:420px;}
+.header-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-right:46px;}
+.badge{background:var(--panel-2);border:1px solid var(--panel-line);border-radius:999px;padding:6px 14px;font-size:.78rem;color:var(--amber-bright);}
+.btn{border:1px solid var(--panel-line);background:var(--panel-2);color:var(--parchment);border-radius:10px;padding:8px 14px;font-size:.85rem;cursor:pointer;}
+.btn.primary{background:var(--amber);border-color:var(--amber);color:#08141a;font-weight:600;}
+.btn.ghost{background:transparent;}
+.btn.small{padding:5px 10px;font-size:.78rem;}
+.file-label{display:inline-flex;align-items:center;cursor:pointer;}
+.panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);padding:18px;margin-bottom:16px;}
+.grid-top{display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px;}
+@media (max-width:860px){ .grid-top{grid-template-columns:minmax(0,1fr);} }
+
+.notices{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.notice{border-radius:10px;padding:8px 12px;font-size:.85rem;}
+.notice.warning{background:#3a241d;color:var(--ember-bright);}
+.notice.motivate{background:#233324;color:#bcd6a0;}
+.notice.reminder{background:var(--panel-2);color:var(--parchment);}
+
+.reminder-banner{background:var(--panel-2);border:1px solid var(--amber-dim);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:.88rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+
+.scene-zone{position:relative;height:220px;border-radius:12px;overflow:hidden;isolation:isolate;margin-bottom:14px;}
+.scene-svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+.scene-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+.scene-glow{position:absolute;inset:0;z-index:0;pointer-events:none;}
+.scene-night-tint{position:absolute;inset:0;z-index:0;background:rgba(8,10,18,0.5);pointer-events:none;}
+.phase-badge{position:absolute;bottom:6px;right:8px;z-index:2;font-size:.65rem;color:var(--parchment);background:rgba(0,0,0,0.4);padding:2px 9px;border-radius:999px;}
+.tree-layer{position:absolute;bottom:0;z-index:0;pointer-events:none;opacity:0.92;}
+.tree-layer svg{display:block;height:100%;width:auto;}
+.tree-left{left:2%; width:56px; height:78%;}
+.tree-right{right:2%; width:56px; height:78%;}
+.tree-center{left:50%; width:74px; height:92%; transform:translateX(-50%); opacity:0.8;}
+.fireflies{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.firefly{position:absolute;width:4px;height:4px;border-radius:50%;background:#e4f27a;box-shadow:0 0 6px 2px rgba(228,242,122,0.85);opacity:0;animation:fireflyPulse 3.6s ease-in-out infinite;}
+@keyframes fireflyPulse{
+  0%,100%{opacity:0;transform:translate(0,0);}
+  20%{opacity:1;}
+  50%{opacity:.25;transform:translate(5px,-7px);}
+  75%{opacity:.9;transform:translate(-4px,-2px);}
+}
+.creature-stage{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;z-index:1;}
+.podest-svg{margin-top:-6px;}
+.waiting-hint{color:var(--muted);font-size:.85rem;font-style:italic;margin:4px 0;}
+
+.creature-name-input{background:transparent;border:none;border-bottom:1px dashed var(--panel-line);color:var(--amber-bright);font-family:'Fraunces',serif;font-size:1.05rem;padding:2px 0 6px;margin-bottom:10px;width:100%;max-width:260px;}
+.creature-name-input:focus{outline:none;border-bottom-color:var(--amber);}
+.creature-name-input::placeholder{color:var(--muted);font-family:'Inter',sans-serif;font-size:.85rem;font-style:italic;}
+.gauge-row{display:flex;gap:16px;align-items:flex-start;}
+.gauge-track{position:relative;width:40px;height:220px;background:var(--panel-2);border:1px solid var(--panel-line);border-radius:20px;overflow:hidden;flex-shrink:0;}
+.gauge-fill{position:absolute;left:0;right:0;bottom:0;border-radius:20px;transition:height .5s ease;}
+.gauge-mark{position:absolute;right:3px;width:10px;height:1px;background:rgba(0,0,0,.3);}
+.gauge-info{flex:1;min-width:0;}
+.level-name{font-weight:600;margin-bottom:4px;}
+.feed-status{font-size:.8rem;color:var(--muted);margin:6px 0;}
+.feed-status.at-risk{color:var(--ember-bright);}
+.milestone-list{font-size:.68rem;color:var(--muted);line-height:1.6;margin-top:6px;}
+
+.add-task-form .form-row{display:flex;flex-wrap:wrap;gap:8px;}
+.add-task-form input[type=text], .add-task-form select, .add-task-form input[type=date]{
+  background:var(--panel-2);border:1px solid var(--panel-line);color:var(--parchment);border-radius:8px;padding:8px 10px;font-size:.85rem;
+}
+.grow-input{flex:1 1 160px;min-width:140px;}
+.new-label-form{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.new-label-form input[type=text], .new-label-form input[type=time]{background:var(--panel-2);border:1px solid var(--panel-line);color:var(--parchment);border-radius:8px;padding:6px 10px;}
+.color-row{display:flex;gap:6px;}
+.color-swatch{width:20px;height:20px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+.color-swatch.selected{border-color:var(--parchment);}
+
+.filter-tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0;font-size:.82rem;}
+.tab{border:1px solid var(--panel-line);background:transparent;color:var(--parchment);border-radius:999px;padding:5px 12px;cursor:pointer;}
+.tab.active{background:var(--amber);border-color:var(--amber);color:#08141a;}
+.cluster-toggle{margin-left:auto;color:var(--muted);font-size:.78rem;display:flex;align-items:center;gap:6px;}
+
+.task-group{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+.label-group-title{font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px;}
+.task-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 12px;background:var(--panel-2);border:1px solid var(--panel-line);border-radius:10px;}
+.task-row.done{opacity:.5;}
+.task-left{display:flex;align-items:center;gap:10px;flex:1 1 140px;min-width:140px;}
+.task-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto;}
+.label-chip{font-size:.72rem;border-radius:999px;padding:2px 9px;}
+.due-chip{font-size:.72rem;color:var(--muted);}
+.due-chip.overdue{color:var(--ember-bright);}
+.icon-btn{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:.9rem;}
+.empty-hint{color:var(--muted);font-size:.85rem;font-style:italic;padding:6px 2px;}
+
+.cal-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.cal-nav{display:flex;align-items:center;gap:10px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px;}
+.cal-weekday{text-align:center;font-size:.68rem;color:var(--muted);padding:4px 0;}
+.cal-cell{background:var(--panel-2);border:1px solid var(--panel-line);border-radius:8px;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--parchment);cursor:pointer;gap:2px;}
+.cal-cell.empty{background:transparent;border:none;cursor:default;}
+.cal-cell.today{border-color:var(--amber);}
+.cal-cell.selected{background:var(--amber-dim);}
+.cal-day{font-size:.78rem;}
+.cal-dot{font-size:.6rem;background:var(--ember);color:#fff;border-radius:999px;padding:0 5px;}
+.cal-marks{display:flex;align-items:center;gap:3px;min-height:12px;}
+.cal-event-dot{width:5px;height:5px;border-radius:50%;background:var(--sage);display:inline-block;}
+.day-events{margin-top:14px;padding-top:12px;border-top:1px solid var(--panel-line);}
+.day-events-title{margin:0;font-size:.92rem;font-family:'Fraunces',serif;color:var(--amber-bright);}
+
+.label-list{display:flex;flex-direction:column;gap:6px;}
+.label-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;background:var(--panel-2);border:1px solid var(--panel-line);border-radius:10px;padding:8px 12px;}
+.label-left{display:flex;align-items:center;gap:8px;}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block;}
+
+.sub-label{font-size:.78rem;color:var(--muted);margin:10px 0 6px;}
+.swatch-row{display:flex;gap:8px;flex-wrap:wrap;}
+.swatch-btn{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;}
+.swatch-btn.locked{opacity:.3;cursor:not-allowed;}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap;}
+.chip-btn{border:1px solid var(--panel-line);background:var(--panel-2);color:var(--parchment);border-radius:999px;padding:6px 12px;font-size:.8rem;cursor:pointer;}
+.chip-btn.active{background:var(--amber);border-color:var(--amber);color:#08141a;}
+.chip-btn:disabled{opacity:.35;cursor:not-allowed;}
+
+.switch-row{display:flex;align-items:center;gap:8px;font-size:.85rem;margin-bottom:8px;}
+.hint-text{color:var(--muted);font-size:.8rem;margin-top:6px;}
+
+.foot-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:20px;}
+
+.eye-pupil{transition:transform .05s linear;}
+.lion-svg{--face:1;will-change:transform;}
+.lion-svg.mood-fainted{transition:transform .4s ease;transform:rotate(90deg) translateY(6px);}
+.lion-ears{transform-box:fill-box;transform-origin:center;}
+.lion-tail{transform-box:fill-box;transform-origin:left center;}
+.lion-head{transform-box:fill-box;transform-origin:center bottom;}
+.eye-pupil{transform-box:fill-box;transform-origin:center;}
+@keyframes headTurn{0%,100%{transform:rotate(0);}30%{transform:rotate(-8deg);}65%{transform:rotate(6deg);}}
+.anim-head-turn{animation:headTurn .6s ease;}
+@keyframes eyeBlink{0%,100%{transform:scaleY(1);}45%,60%{transform:scaleY(.12);}}
+.anim-blink{animation:eyeBlink .5s ease;}
+.dust-puff{position:absolute;left:50%;bottom:-2px;width:46px;height:16px;margin-left:-23px;border-radius:50%;background:radial-gradient(circle, rgba(230,215,180,.6), transparent 70%);animation:dustPuff .7s ease-out forwards;pointer-events:none;z-index:2;}
+@keyframes dustPuff{0%{opacity:0;transform:scale(.4);}30%{opacity:.85;}100%{opacity:0;transform:scale(1.6) translateY(-4px);}}
+.paw-sparkle{display:inline-block;margin-left:8px;animation:pawSparkle .9s ease-out forwards;}
+@keyframes pawSparkle{0%{opacity:0;transform:translateY(4px) scale(.6);}30%{opacity:1;}100%{opacity:0;transform:translateY(-10px) scale(1.1);}}
+@keyframes pawRaise{0%{transform:translateY(0) rotate(0)}40%{transform:translateY(-9px) rotate(-14deg)}70%{transform:translateY(-3px) rotate(-7deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes earWiggle{0%,100%{transform:rotate(0)}30%{transform:rotate(9deg)}60%{transform:rotate(-7deg)}}
+@keyframes tailFlick{0%,100%{transform:rotate(0)}25%{transform:rotate(-18deg)}55%{transform:rotate(14deg)}80%{transform:rotate(-6deg)}}
+@keyframes bodyJump{0%{transform:translateX(var(--wx,0px)) translateY(0) scaleY(1) scaleX(var(--face,1))}15%{transform:translateX(var(--wx,0px)) translateY(2px) scaleY(.92) scaleX(var(--face,1))}45%{transform:translateX(var(--wx,0px)) translateY(-24px) scaleY(1.05) scaleX(var(--face,1))}70%{transform:translateX(var(--wx,0px)) translateY(0) scaleY(.94) scaleX(var(--face,1))}100%{transform:translateX(var(--wx,0px)) translateY(0) scaleY(1) scaleX(var(--face,1))}}
+@keyframes reactGlow{0%{filter:brightness(1)}30%{filter:brightness(1.3) drop-shadow(0 0 10px var(--amber-bright))}100%{filter:brightness(1)}}
+.anim-paw-raise{animation:pawRaise .7s ease;}
+.anim-ear-wiggle{animation:earWiggle .7s ease;}
+.anim-tail-flick{animation:tailFlick .7s ease;}
+.anim-jump{animation:bodyJump .8s cubic-bezier(.3,.6,.3,1);}
+.anim-glow{animation:reactGlow 1.2s ease;}
+.prey-icon{display:inline-flex;align-items:center;flex-shrink:0;margin-right:2px;line-height:0;transition:opacity .25s ease,transform .25s ease;}
+.task-row.done .prey-icon{opacity:.25;filter:grayscale(1);transform:scale(.85);}
+.flying-prey{position:fixed;z-index:999;pointer-events:none;margin-left:-10px;margin-top:-7px;filter:drop-shadow(0 3px 5px rgba(0,0,0,.45));}
+@keyframes chomp{0%,100%{transform:scaleY(1) scaleX(1);}30%{transform:scaleY(.82) scaleX(1.1);}55%{transform:scaleY(1.08) scaleX(.95);}}
+.anim-chomp{animation:chomp .45s cubic-bezier(.3,.7,.4,1);}
+.chomp-drop{position:fixed;z-index:998;width:5px;height:5px;border-radius:50%;background:var(--amber-bright);opacity:0;pointer-events:none;animation:chompDrop .55s ease-out forwards;}
+@keyframes chompDrop{0%{opacity:.9;transform:translate(0,0) scale(1);}100%{opacity:0;transform:translate(var(--ddx,0px),-26px) scale(.35);}}
+
+.gear-btn{position:fixed;top:16px;right:16px;z-index:40;background:var(--panel-2);border:1px solid var(--panel-line);color:var(--parchment);border-radius:10px;width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);}
+.settings-overlay{position:fixed;inset:0;background:rgba(10,7,4,0.6);z-index:50;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px;overflow-y:auto;}
+.settings-modal{background:var(--panel);border:1px solid var(--panel-line);border-radius:var(--radius);max-width:640px;width:100%;padding:20px 22px 26px;}
+.settings-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.settings-modal .panel{background:var(--panel-2);}
+.lang-row{display:flex;gap:8px;margin:6px 0 4px;}
+.event-color-dot{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:2px;}
+</style>
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Otter">
+<meta name="theme-color" content="#08141a">
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+'use strict';
+
+var STORAGE_KEY = 'maehne-state';
+var GROWTH_PER_TASK = 2;
+var OVERDUE_PENALTY = 4;
+var NEGLECT_PENALTY = 6;
+var NEGLECT_DAYS = 2;
+var DRAMATIC_NEGLECT_DAYS = 4;
+
+var LABEL_COLORS = ['#2e8f8a','#5f8f7a','#3f7d8a','#6f7d4a','#7a6f8f','#4f6a72','#8a7f5a'];
+
+// ---------- Übersetzungen ----------
+var STRINGS = {
+  de: {
+    eyebrow: 'AUFGABENÜBERSICHT',
+    subtitle: 'Jede erledigte Aufgabe füttert ihn. Bleib dran, sonst fällt er zurück.',
+    dayBadge: '◆ Tag {n} mit ihm',
+    dayBadgeStart: '◆ Bereit für die erste Aufgabe',
+    exportBtn: 'Exportieren',
+    importBtn: 'Importieren',
+    settingsTitle: 'Einstellungen',
+    closeBtn: 'Schließen',
+    reminderBannerText: '🔔 Heute schon gefüttert? Eine erledigte Aufgabe hält ihn bei Kräften.',
+    reminderBannerDismiss: 'Für heute ausblenden',
+    savanneTitle: 'Die Innerste',
+    namePlaceholder: 'Name geben…',
+    nameSub: 'Name',
+    preyFish: 'Fisch',
+    preyCrab: 'Krebs',
+    waitingHint: 'Er wartet auf seine erste Aufgabe…',
+    fedToday: 'Heute gefüttert',
+    daysSinceFeed: '{n} Tag(e) seit der letzten Fütterung',
+    choosePhoto: 'Eigenen Hintergrund wählen',
+    aufgabenTitle: 'Aufgaben',
+    newTaskPlaceholder: 'Neue Aufgabe…',
+    newLabelOption: '+ Neues Label…',
+    dueToday: 'Fällig heute',
+    dueTomorrow: 'Fällig morgen',
+    dueOn: 'Fällig am…',
+    addBtn: 'Hinzufügen',
+    labelNamePlaceholder: 'Labelname',
+    saveLabelBtn: 'Label speichern',
+    filterToday: 'Heute',
+    filterTomorrow: 'Morgen',
+    filterWeek: 'Diese Woche',
+    filterAll: 'Alle',
+    clusterToggle: 'Nach Label gruppieren',
+    emptyTasks: 'Nichts hier – sie bleibt hungrig.',
+    overdue: 'Überfällig',
+    dueChip: 'Fällig {d}',
+    deleteBtn: 'Löschen',
+    kalenderTitle: 'Kalender',
+    weekdays: ['Mo','Di','Mi','Do','Fr','Sa','So'],
+    eventsOnDay: 'Termine am {d}',
+    addEventBtn: '+ Termin',
+    cancelBtn: 'Abbrechen',
+    emptyDayEvents: 'Keine Termine an diesem Tag.',
+    eventTitlePlaceholder: 'Titel',
+    eventColorLabel: 'Farbe',
+    reminderCheckbox: 'Erinnerung',
+    saveBtn: 'Speichern',
+    toggleReminderTitle: 'Erinnerung umschalten',
+    upcomingEventsTitle: 'Anstehende Ereignisse',
+    emptyUpcoming: 'Keine anstehenden Termine.',
+    historyTitle: 'Verlauf',
+    historyShow: 'Verlauf anzeigen ({n})',
+    historyHide: 'Verlauf ausblenden',
+    emptyHistory: 'Noch keine erledigten Aufgaben.',
+    doneOn: 'Erledigt {d}',
+    labelsTitle: 'Labels',
+    labelDefault: 'Standard',
+    renameTitle: 'Umbenennen',
+    manageLabelsBtn: 'Labels bearbeiten',
+    anpassungTitle: 'Anpassung',
+    coatSub: 'Fellfarbe (schaltet sich mit dem höchsten je erreichten Wachstum frei)',
+    maneSub: 'Fellzeichnung (Kehlfleck)',
+    maneLockedHint: 'Schaltet sich frei, sobald der erste helle Kehlfleck erscheint (ab {n}%).',
+    podestSub: 'Liegestein',
+    tailSub: 'Schwanzhaltung',
+    reactionSub: 'Zusatzeffekt bei erledigten Aufgaben',
+    treeSub: 'Alter Weidenbaum (finale Freischaltung, nach {n} erledigten Aufgaben)',
+    treeLockedHint: 'Schaltet sich frei nach {n} erledigten Aufgaben (bisher {c}).',
+    lockedSuffix: ' 🔒 ab {n}%',
+    erinnerungenTitle: 'Erinnerungen',
+    dailyReminderLabel: 'Tägliche Erinnerung um',
+    warningsLabel: 'Warnungen bei Vernachlässigung',
+    motivationalLabel: 'Motivierende Nachrichten',
+    allowNotifBtn: 'Browser-Benachrichtigungen erlauben',
+    erinnerungenHint: 'In der nativen Android-Version werden Warnungen und Erinnerungen zu echten, planbaren Push-Benachrichtigungen – auch bei geschlossener App.',
+    languageSub: 'Sprache',
+    dataTitle: 'Daten',
+    footNote: 'Alle Daten bleiben lokal auf diesem Gerät. Für Push-Benachrichtigungen auch bei geschlossener App braucht es die native Android-Fassung.',
+    confirmDeleteTask: 'Diese Aufgabe wirklich löschen?',
+    confirmDeleteLabel: 'Dieses Label wirklich löschen? Aufgaben mit diesem Label werden zu "Ohne Label".',
+    confirmDeleteEvent: 'Diesen Termin wirklich löschen?',
+    promptRenameLabel: 'Neuer Name für "{name}":',
+    alertInvalidJson: 'Diese Datei ist kein gültiges JSON.',
+    alertInvalidBackup: 'Diese Datei sieht nicht wie eine gültige Otter-Sicherung aus.',
+    alertNoNotifSupport: 'Dein Browser unterstützt keine Benachrichtigungen.',
+    unlabeledName: 'Ohne Label',
+    motivations: [
+      'Gefüttert. Er streckt sich zufrieden am Ufer.',
+      'Eine Aufgabe weniger – sein Fell glänzt schon dichter.',
+      'Guter Fang. Bleib in diesem Tempo, der nächste Kehlfleck lässt nicht mehr lange auf sich warten.',
+      'Er hat es bemerkt. Kleine Schritte zählen auch.'
+    ],
+    noticeOverdue: 'Eine Aufgabe wurde nicht rechtzeitig gefüttert – er ist ein Stück zurückgefallen.',
+    noticeNeglect: 'Seit {n} Tagen keine neue Aufgabe – er wird unruhig und verliert an Kraft.',
+    notifOverdueTitle: 'Aufgabe überfällig',
+    notifOverdueBody: 'Eine überfällige Aufgabe hat ihn zurückgeworfen.',
+    notifNeglectTitle: 'Zeit, ihn zu füttern',
+    notifNeglectBody: 'Schon länger keine neue Aufgabe hinzugefügt.',
+    notifFedTitle: 'Gut gefüttert',
+    notifTaskDueTitle: 'Fällig heute',
+    notifTaskDueBody: '"{text}" ist heute fällig – füttere ihn rechtzeitig.',
+    notifDailyTitle: 'Otter',
+    notifDailyBody: 'Heute schon gefüttert? Eine erledigte Aufgabe hält ihn bei Kräften.',
+    notifEventTitle: 'Termin: {title}',
+    notifEventBodyTime: ' um {t} Uhr',
+    localeCode: 'de-DE',
+    lvl: [
+      'Ein neugeborener Fischotter, blind und nackt im Bau',
+      'Ein Otterjunges öffnet die Augen',
+      'Ein neugieriges Junges tapst zum ersten Mal ans Wasser',
+      'Ein Junges mit erstem hellen Kehlfleck',
+      'Ein junger Otter übt das Tauchen und Fischen',
+      'Ein kräftiger Jungotter durchstreift sein Revier an der Innerste',
+      'Der Fischotter der Innerste'
+    ],
+    pal_savanna: 'Flussbraun', pal_kalahari: 'Uferbraun', pal_asch: 'Nebelgrau', pal_dusk: 'Tiefwasser',
+    podest_none: 'Uferstein eben', podest_klein: 'Kleiner Fels am Ufer', podest_hoch: 'Hoher Fels über dem Wasser',
+    tail_classic: 'Ruhend, leicht gebogen', tail_ground: 'Gestreckt am Boden', tail_upcurl: 'Im Wasser eingerollt', tail_highflick: 'Wedelnd, hoch aufgestellt',
+    tree_off: 'Kein Baum', tree_left: 'Links im Hintergrund', tree_right: 'Rechts im Hintergrund', tree_center: 'Zentral, hinter ihm',
+    reaction_none: 'Kein Zusatzeffekt', reaction_blink: 'Zwinkern', reaction_headturn: 'Kopf zur Seite drehen', reaction_dust: 'Wassertropfen bei Landung', reaction_sparkle: 'Pfotenabdruck bei den Aufgaben',
+    phase_sunrise: '🌅 Sonnenaufgang', phase_day: '☀️ Tag', phase_sunset: '🌇 Sonnenuntergang', phase_night: '🌙 Nacht'
+  },
+  en: {
+    eyebrow: 'TASK OVERVIEW',
+    subtitle: 'Every finished task feeds him. Keep it up, or he falls back.',
+    dayBadge: '◆ Day {n} with him',
+    dayBadgeStart: '◆ Ready for the first task',
+    exportBtn: 'Export',
+    importBtn: 'Import',
+    settingsTitle: 'Settings',
+    closeBtn: 'Close',
+    reminderBannerText: '🔔 Fed him yet today? A finished task keeps him strong.',
+    reminderBannerDismiss: 'Hide for today',
+    savanneTitle: 'The Innerste',
+    namePlaceholder: 'Give a name…',
+    nameSub: 'Name',
+    preyFish: 'Fish',
+    preyCrab: 'Crab',
+    waitingHint: 'He is waiting for his first task…',
+    fedToday: 'Fed today',
+    daysSinceFeed: '{n} day(s) since her last feeding',
+    choosePhoto: 'Choose a custom background',
+    aufgabenTitle: 'Tasks',
+    newTaskPlaceholder: 'New task…',
+    newLabelOption: '+ New label…',
+    dueToday: 'Due today',
+    dueTomorrow: 'Due tomorrow',
+    dueOn: 'Due by…',
+    addBtn: 'Add',
+    labelNamePlaceholder: 'Label name',
+    saveLabelBtn: 'Save label',
+    filterToday: 'Today',
+    filterTomorrow: 'Tomorrow',
+    filterWeek: 'This week',
+    filterAll: 'All',
+    clusterToggle: 'Group by label',
+    emptyTasks: 'Nothing here – she stays hungry.',
+    overdue: 'Overdue',
+    dueChip: 'Due {d}',
+    deleteBtn: 'Delete',
+    kalenderTitle: 'Calendar',
+    weekdays: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+    eventsOnDay: 'Events on {d}',
+    addEventBtn: '+ Event',
+    cancelBtn: 'Cancel',
+    emptyDayEvents: 'No events on this day.',
+    eventTitlePlaceholder: 'Title',
+    eventColorLabel: 'Color',
+    reminderCheckbox: 'Reminder',
+    saveBtn: 'Save',
+    toggleReminderTitle: 'Toggle reminder',
+    upcomingEventsTitle: 'Upcoming Events',
+    emptyUpcoming: 'No upcoming events.',
+    historyTitle: 'History',
+    historyShow: 'Show history ({n})',
+    historyHide: 'Hide history',
+    emptyHistory: 'No finished tasks yet.',
+    doneOn: 'Done {d}',
+    labelsTitle: 'Labels',
+    labelDefault: 'Default',
+    renameTitle: 'Rename',
+    manageLabelsBtn: 'Manage labels',
+    anpassungTitle: 'Customization',
+    coatSub: 'Coat color (unlocked by the highest growth ever reached)',
+    maneSub: 'Throat patch marking',
+    maneLockedHint: 'Unlocks once the first pale throat patch appears (at {n}%).',
+    podestSub: 'Resting rock',
+    tailSub: 'Tail posture',
+    reactionSub: 'Bonus effect on finished tasks',
+    treeSub: 'Old willow tree (final unlock, after {n} finished tasks)',
+    treeLockedHint: 'Unlocks after {n} finished tasks (so far {c}).',
+    lockedSuffix: ' 🔒 at {n}%',
+    erinnerungenTitle: 'Reminders',
+    dailyReminderLabel: 'Daily reminder at',
+    warningsLabel: 'Neglect warnings',
+    motivationalLabel: 'Motivational messages',
+    allowNotifBtn: 'Allow browser notifications',
+    erinnerungenHint: 'In the native Android build, warnings and reminders become real, schedulable push notifications – even while the app is closed.',
+    languageSub: 'Language',
+    dataTitle: 'Data',
+    footNote: 'All data stays local on this device. Push notifications while the app is closed require the native Android build.',
+    confirmDeleteTask: 'Really delete this task?',
+    confirmDeleteLabel: 'Really delete this label? Tasks with this label become "Unlabeled".',
+    confirmDeleteEvent: 'Really delete this event?',
+    promptRenameLabel: 'New name for "{name}":',
+    alertInvalidJson: 'This file is not valid JSON.',
+    alertInvalidBackup: "This file doesn't look like a valid otter backup.",
+    alertNoNotifSupport: "Your browser doesn't support notifications.",
+    unlabeledName: 'Unlabeled',
+    motivations: [
+      'Fed. He stretches out contentedly on the riverbank.',
+      'One task down – his coat already looks a bit thicker.',
+      "Good catch. Keep this pace and the next throat patch won't be far off.",
+      'He noticed. Small steps still count.'
+    ],
+    noticeOverdue: "A task wasn't fed in time – he's slipped back a little.",
+    noticeNeglect: "No new task in {n} days – he's getting restless and losing strength.",
+    notifOverdueTitle: 'Task overdue',
+    notifOverdueBody: 'An overdue task set him back.',
+    notifNeglectTitle: 'Time to feed him',
+    notifNeglectBody: "It's been a while since a new task was added.",
+    notifFedTitle: 'Well fed',
+    notifTaskDueTitle: 'Due today',
+    notifTaskDueBody: '"{text}" is due today – feed him in time.',
+    notifDailyTitle: 'Otter',
+    notifDailyBody: 'Fed him yet today? A finished task keeps him strong.',
+    notifEventTitle: 'Event: {title}',
+    notifEventBodyTime: ' at {t}',
+    localeCode: 'en-US',
+    lvl: [
+      'A newborn otter, blind and hairless in the holt',
+      'An otter pup opens its eyes',
+      'A curious pup toddles to the water for the first time',
+      'A pup with its first pale throat patch',
+      'A young otter practices diving and fishing',
+      'A sturdy young otter roams its stretch of the Innerste',
+      "The Innerste's otter"
+    ],
+    pal_savanna: 'River Brown', pal_kalahari: 'Bank Brown', pal_asch: 'Mist Grey', pal_dusk: 'Deep Water',
+    podest_none: 'Flat riverbank', podest_klein: 'Small riverside rock', podest_hoch: 'Tall rock above the water',
+    tail_classic: 'Resting, slightly curved', tail_ground: 'Stretched along the ground', tail_upcurl: 'Curled, trailing in water', tail_highflick: 'Flicking, held high',
+    tree_off: 'No tree', tree_left: 'Left, in the background', tree_right: 'Right, in the background', tree_center: 'Center, behind him',
+    reaction_none: 'No bonus effect', reaction_blink: 'Blink', reaction_headturn: 'Head turn', reaction_dust: 'Water droplet on landing', reaction_sparkle: 'Paw print by the tasks',
+    phase_sunrise: '🌅 Sunrise', phase_day: '☀️ Day', phase_sunset: '🌇 Sunset', phase_night: '🌙 Night'
+  }
+};
+function t(key, vars){
+  var lang = (state && state.language === 'en') ? 'en' : 'de';
+  var str = STRINGS[lang][key];
+  if (str === undefined) str = STRINGS.de[key];
+  if (str === undefined) return key;
+  if (vars){
+    Object.keys(vars).forEach(function(k){
+      str = str.replace('{' + k + '}', vars[k]);
+    });
+  }
+  return str;
+}
+
+var LEVELS = [
+  { min:0,  mane:0, size:0.45 },
+  { min:8,  mane:0, size:0.55 },
+  { min:20, mane:0, size:0.65 },
+  { min:38, mane:1, size:0.75 },
+  { min:56, mane:1, size:0.85 },
+  { min:74, mane:2, size:0.93 },
+  { min:90, mane:2, size:1.0 }
+];
+
+var PALETTES = {
+  savanna:  { unlock:0,  body:'#6b5442', bodyDark:'#3f3026', belly:'#dfe8df', accent:'#2e8f8a' },
+  kalahari: { unlock:20, body:'#836751', bodyDark:'#4f3d2f', belly:'#e8e3d2', accent:'#3f9d8f' },
+  asch:     { unlock:45, body:'#6f7570', bodyDark:'#42484a', belly:'#dce6e4', accent:'#5f9d9a' },
+  dusk:     { unlock:75, body:'#3f3a36', bodyDark:'#232120', belly:'#b9c6c2', accent:'#7fbfb2' }
+};
+
+var PODESTE = {
+  none:  { unlock:0,  height:0 },
+  klein: { unlock:35, height:30 },
+  hoch:  { unlock:70, height:58 }
+};
+
+var MANE_COLORS = ['#dfe8df','#c7d6d2','#e8e3d2','#a9c2bc','#f0f5f2'];
+var MANE_UNLOCK_GROWTH = 38;
+
+var TAIL_STYLES = {
+  classic:   { unlock:0,
+               d:'M100 150 C 76 156, 40 156, 26 172 C 20 179, 30 186, 40 182', tuftX:40, tuftY:182 },
+  ground:    { unlock:10,
+               d:'M100 156 C 70 160, 30 162, 12 172 C 6 176, 10 180, 18 179',  tuftX:18, tuftY:179 },
+  upcurl:    { unlock:20,
+               d:'M100 150 C 74 156, 36 158, 24 140 C 18 128, 30 116, 46 120', tuftX:46, tuftY:120 },
+  highflick: { unlock:45,
+               d:'M100 148 C 68 150, 26 146, 16 118 C 11 100, 28 84, 46 90',   tuftX:46, tuftY:90 }
+};
+
+var TREE_UNLOCK_COMPLETED = 500;
+var TREE_POSITIONS = {
+  off:    {},
+  left:   {},
+  right:  {},
+  center: {}
+};
+var TREE_PHASE_STYLE = {
+  day:     { canopy:'#1f4a3c', canopyDark:'#16362c', trunk:'#2a3f40', opacity:1 },
+  sunrise: { canopy:'#2c5b4a', canopyDark:'#1f4438', trunk:'#334a4b', opacity:0.75 },
+  sunset:  { canopy:'#163029', canopyDark:'#0f231e', trunk:'#1c2e2f', opacity:0.85 },
+  night:   { canopy:'#0a1a17', canopyDark:'#0a1a17', trunk:'#0a1a17', opacity:0.95 }
+};
+function renderBaobabSVG(phase){
+  var st = TREE_PHASE_STYLE[phase] || TREE_PHASE_STYLE.day;
+  return '<svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg" style="opacity:' + st.opacity + '">' +
+    '<rect x="45" y="120" width="10" height="40" fill="' + st.trunk + '"/>' +
+    '<path d="M50 6 L20 60 L38 60 L14 100 L36 100 L8 138 L92 138 L64 100 L86 100 L62 60 L80 60 Z" fill="' + st.canopy + '"/>' +
+    '<path d="M50 6 L38 60 L50 60 Z M50 60 L36 100 L50 100 Z M50 100 L50 138 L44 138 L50 100 Z" fill="' + st.canopyDark + '" opacity="0.5"/>' +
+  '</svg>';
+}
+
+var EXTRA_REACTIONS = {
+  none:     { unlock:0 },
+  blink:    { unlock:15 },
+  headturn: { unlock:30 },
+  dust:     { unlock:55 },
+  sparkle:  { unlock:80 }
+};
+
+// ---------- Storage-Abstraktion (Web-Artefakt / Capacitor / localStorage) ----------
+var loewenStorage = {
+  get: function(key){
+    return new Promise(function(resolve){
+      try{
+        if (window.storage && typeof window.storage.get === 'function'){
+          window.storage.get(key, false).then(function(r){ resolve(r ? r.value : null); }).catch(function(){ resolve(null); });
+          return;
+        }
+      }catch(e){}
+      try{
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences){
+          window.Capacitor.Plugins.Preferences.get({ key: key }).then(function(r){ resolve(r.value); }).catch(function(){ resolve(null); });
+          return;
+        }
+      }catch(e){}
+      try{ resolve(localStorage.getItem(key)); }catch(e){ resolve(null); }
+    });
+  },
+  set: function(key, value){
+    return new Promise(function(resolve){
+      try{
+        if (window.storage && typeof window.storage.set === 'function'){
+          window.storage.set(key, value, false).then(function(){ resolve(); }).catch(function(){ resolve(); });
+          return;
+        }
+      }catch(e){}
+      try{
+        if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Preferences){
+          window.Capacitor.Plugins.Preferences.set({ key: key, value: value }).then(function(){ resolve(); }).catch(function(){ resolve(); });
+          return;
+        }
+      }catch(e){}
+      try{ localStorage.setItem(key, value); }catch(e){}
+      resolve();
+    });
+  }
+};
+
+// ---------- Utils ----------
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function addDays(dateStr, n){
+  var d = new Date(dateStr + 'T00:00:00');
+  d.setDate(d.getDate() + n);
+  return d.toISOString().slice(0,10);
+}
+function daysBetween(a, b){
+  return Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000);
+}
+function fmtDate(dateStr){
+  var d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString(t('localeCode'), { day:'2-digit', month:'2-digit', year:'numeric' });
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
+function safeRun(fn){
+  try{ return fn(); }catch(e){ console.error(e); return ''; }
+}
+function levelForGrowth(g){
+  var current = LEVELS[0];
+  for (var i=0;i<LEVELS.length;i++){ if (g >= LEVELS[i].min) current = LEVELS[i]; }
+  return current;
+}
+function labelById(id){
+  var found = state.labels.filter(function(l){ return l.id===id; })[0];
+  if (found) return found;
+  return state.labels.filter(function(l){ return l.id==='unlabeled'; })[0] || { id:'unlabeled', name:'Ohne Label', color:'#8a7a63' };
+}
+function labelDisplayName(l){
+  return l.id === 'unlabeled' ? t('unlabeledName') : l.name;
+}
+
+// ---------- State ----------
+var state, ui;
+
+function defaultState(){
+  var now = new Date();
+  return {
+    version: 1,
+    language: 'de',
+    creatureName: '',
+    labels: [
+      { id:'unlabeled', name:'Ohne Label', color:'#8a7a63' },
+      { id:'chores', name:'Chores', color: LABEL_COLORS[0] },
+      { id:'emails', name:'E-Mails', color: LABEL_COLORS[1] }
+    ],
+    tasks: [],
+    growth: 0,
+    maxGrowthEver: 0,
+    totalCompleted: 0,
+    firstTaskDate: null,
+    lastActivityDate: todayStr(),
+    lastNeglectPenaltyDate: null,
+    growthLog: [],
+    milestones: [],
+    notices: [],
+    events: [],
+    customPhoto: null,
+    customization: { palette:'savanna', podest:'none', maneColor:null, extraReaction:'none', tailStyle:'classic', treePosition:'off' },
+    reminder: { enabled:true, time:'09:00', warnings:true, motivational:true, lastDismissedDate:null },
+    clusterByLabel: false,
+    calendarView: { year: now.getFullYear(), month: now.getMonth() },
+    filter: 'today',
+    selectedDate: null
+  };
+}
+
+function migrateState(raw){
+  raw = raw || {};
+  var d = defaultState();
+  var s = {};
+  for (var k in d){ s[k] = (raw[k] !== undefined) ? raw[k] : d[k]; }
+  s.labels = Array.isArray(raw.labels) && raw.labels.length ? raw.labels : d.labels;
+  if (!s.labels.some(function(l){ return l.id==='unlabeled'; })){
+    s.labels.unshift({ id:'unlabeled', name:'Ohne Label', color:'#8a7a63' });
+  }
+  s.tasks = Array.isArray(raw.tasks) ? raw.tasks.map(function(t){
+    return Object.assign({ flaggedOverdue:false, doneDate:null, createdDate: todayStr() }, t);
+  }) : [];
+  s.customization = Object.assign({}, d.customization, raw.customization || {});
+  s.reminder = Object.assign({}, d.reminder, raw.reminder || {});
+  s.calendarView = Object.assign({}, d.calendarView, raw.calendarView || {});
+  s.growthLog = Array.isArray(raw.growthLog) ? raw.growthLog : [];
+  s.milestones = Array.isArray(raw.milestones) ? raw.milestones : [];
+  s.notices = Array.isArray(raw.notices) ? raw.notices : [];
+  s.events = Array.isArray(raw.events) ? raw.events.map(function(e){
+    return Object.assign({ reminderEnabled:true, time:null, color:null }, e);
+  }) : [];
+  if (typeof s.growth !== 'number') s.growth = 0;
+  if (typeof s.maxGrowthEver !== 'number') s.maxGrowthEver = s.growth;
+  if (typeof s.totalCompleted !== 'number') s.totalCompleted = 0;
+  if (!s.lastActivityDate) s.lastActivityDate = todayStr();
+  if (s.language !== 'en' && s.language !== 'de') s.language = 'de';
+  if (typeof s.creatureName !== 'string') s.creatureName = '';
+  return s;
+}
+
+// ---------- Kernlogik: Wachstum & Fütterung ----------
+function logGrowth(){
+  var t = todayStr();
+  var last = state.growthLog[state.growthLog.length-1];
+  if (last && last.date===t) last.growth = state.growth;
+  else state.growthLog.push({ date:t, growth: state.growth });
+  if (state.growthLog.length > 200) state.growthLog.shift();
+}
+function checkMilestones(){
+  LEVELS.forEach(function(lvl, idx){
+    if (state.maxGrowthEver >= lvl.min && !state.milestones.some(function(m){ return m.idx===idx; })){
+      state.milestones.push({ idx: idx, date: todayStr() });
+    }
+  });
+}
+function applyGrowth(delta){
+  state.growth = Math.max(0, Math.min(100, state.growth + delta));
+  if (state.growth > state.maxGrowthEver) state.maxGrowthEver = state.growth;
+  logGrowth();
+  checkMilestones();
+}
+function setCreatureName(name){
+  state.creatureName = (name || '').trim().slice(0, 24);
+  saveAndRender();
+}
+function pushNotice(type, text){
+  state.notices = state.notices || [];
+  state.notices.unshift({ id:'n'+Date.now()+Math.random().toString(36).slice(2,5), type:type, text:text });
+  state.notices = state.notices.slice(0,6);
+}
+function notifyBrowser(title, body){
+  if (('Notification' in window) && Notification.permission === 'granted'){
+    try{ new Notification(title, { body: body }); }catch(e){}
+  }
+  var ln = capNotif();
+  if (ln){
+    try{ ln.schedule({ notifications: [{ id: Math.floor(Math.random()*100000)+500000, title: title, body: body, schedule: { at: new Date(Date.now()+500) } }] }); }catch(e){}
+  }
+}
+// ---------- Native Android Push (Capacitor LocalNotifications) ----------
+// Läuft nur, wenn die App als Capacitor-App gebaut wurde - im normalen Browser
+// ist capNotif() immer null und der Rest bleibt folgenlos.
+function capNotif(){
+  try{
+    return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.LocalNotifications) ? window.Capacitor.Plugins.LocalNotifications : null;
+  }catch(e){ return null; }
+}
+function hashId(str, base){
+  var h = 0;
+  for (var i=0;i<str.length;i++){ h = ((h<<5)-h+str.charCodeAt(i))|0; }
+  return Math.abs(h % 500000) + (base || 2000); // 0/1 sind für Tages-/Vernachlässigungs-Erinnerung reserviert
+}
+function scheduleTaskNotification(task){
+  var ln = capNotif();
+  if (!ln || task.done) return;
+  var due = new Date(task.due + 'T09:00:00');
+  if (due.getTime() <= Date.now()) return;
+  try{
+    ln.schedule({ notifications: [{
+      id: hashId(task.id),
+      title: t('notifTaskDueTitle'),
+      body: t('notifTaskDueBody', { text: task.text }),
+      schedule: { at: due }
+    }]});
+  }catch(e){}
+}
+function cancelTaskNotification(task){
+  var ln = capNotif();
+  if (!ln) return;
+  try{ ln.cancel({ notifications: [{ id: hashId(task.id) }] }); }catch(e){}
+}
+function scheduleEventNotification(ev){
+  var ln = capNotif();
+  if (!ln || !ev.reminderEnabled) return;
+  var at = new Date(ev.date + 'T' + (ev.time || '09:00') + ':00');
+  if (at.getTime() <= Date.now()) return;
+  try{
+    ln.schedule({ notifications: [{
+      id: hashId(ev.id, 700000),
+      title: t('notifEventTitle', { title: ev.title }),
+      body: fmtDate(ev.date) + (ev.time ? t('notifEventBodyTime', { t: ev.time }) : ''),
+      schedule: { at: at }
+    }]});
+  }catch(e){}
+}
+function cancelEventNotification(ev){
+  var ln = capNotif();
+  if (!ln) return;
+  try{ ln.cancel({ notifications: [{ id: hashId(ev.id, 700000) }] }); }catch(e){}
+}
+function rescheduleNeglectNotification(){
+  var ln = capNotif();
+  if (!ln) return;
+  try{ ln.cancel({ notifications: [{ id: 2 }] }); }catch(e){}
+  if (!state.reminder.warnings) return;
+  var at = new Date(new Date(state.lastActivityDate + 'T00:00:00').getTime() + NEGLECT_DAYS*86400000 + 9*3600000);
+  if (at.getTime() > Date.now()){
+    try{
+      ln.schedule({ notifications: [{
+        id: 2,
+        title: t('notifNeglectTitle'),
+        body: t('noticeNeglect', { n: NEGLECT_DAYS }),
+        schedule: { at: at }
+      }]});
+    }catch(e){}
+  }
+}
+function rescheduleDailyReminder(){
+  var ln = capNotif();
+  if (!ln) return;
+  try{ ln.cancel({ notifications: [{ id: 1 }] }); }catch(e){}
+  if (!state.reminder.enabled) return;
+  var parts = state.reminder.time.split(':');
+  try{
+    ln.schedule({ notifications: [{
+      id: 1,
+      title: t('notifDailyTitle'),
+      body: t('notifDailyBody'),
+      schedule: { on: { hour: parseInt(parts[0],10), minute: parseInt(parts[1],10) }, allowWhileIdle: true }
+    }]});
+  }catch(e){}
+}
+function pickMotivation(){
+  var lines = t('motivations');
+  return lines[Math.floor(Math.random()*lines.length)];
+}
+function checkFeedingStatus(){
+  var today = todayStr();
+  var penalty = 0;
+  var overdueFired = false;
+  state.tasks.forEach(function(task){
+    if (!task.done && !task.flaggedOverdue && task.due < today){
+      task.flaggedOverdue = true;
+      penalty += OVERDUE_PENALTY;
+      overdueFired = true;
+    }
+  });
+  var gap = daysBetween(state.lastActivityDate, today);
+  var neglected = false;
+  if (gap >= NEGLECT_DAYS && state.lastNeglectPenaltyDate !== today){
+    penalty += NEGLECT_PENALTY;
+    neglected = true;
+    state.lastNeglectPenaltyDate = today;
+  }
+  if (penalty > 0){
+    applyGrowth(-penalty);
+    if (overdueFired){
+      pushNotice('warning', t('noticeOverdue'));
+      if (state.reminder.warnings) notifyBrowser(t('notifOverdueTitle'), t('notifOverdueBody'));
+    }
+    if (neglected){
+      pushNotice('warning', t('noticeNeglect', { n: gap }));
+      if (state.reminder.warnings) notifyBrowser(t('notifNeglectTitle'), t('notifNeglectBody'));
+    }
+    return true;
+  }
+  return false;
+}
+
+// ---------- Aktionen ----------
+function completeTask(id){
+  var task = state.tasks.filter(function(x){ return x.id===id; })[0];
+  if (!task || task.done) return;
+  var preyFrom = preyRectFor(id);
+  var preyType = preyTypeFor(id);
+  task.done = true;
+  task.doneDate = todayStr();
+  state.lastActivityDate = todayStr();
+  state.totalCompleted = (state.totalCompleted || 0) + 1;
+  if (!state.firstTaskDate) state.firstTaskDate = todayStr();
+  applyGrowth(GROWTH_PER_TASK);
+  var msg = pickMotivation();
+  pushNotice('motivate', msg);
+  if (state.reminder.motivational) notifyBrowser(t('notifFedTitle'), msg);
+  cancelTaskNotification(task);
+  rescheduleNeglectNotification();
+  saveAndRender();
+  flyPrey(preyType, preyFrom);
+}
+function deleteTask(id){
+  if (!confirm(t('confirmDeleteTask'))) return;
+  var t = state.tasks.filter(function(x){ return x.id===id; })[0];
+  if (t) cancelTaskNotification(t);
+  state.tasks = state.tasks.filter(function(t){ return t.id !== id; });
+  saveAndRender();
+}
+function addTaskFromForm(){
+  var textEl = document.getElementById('newTaskText');
+  var dueSel = document.getElementById('newTaskDue');
+  var dueDateEl = document.getElementById('newTaskDueDate');
+  var text = textEl ? textEl.value.trim() : '';
+  if (!text) return;
+  var due;
+  if (!dueSel || dueSel.value === 'today') due = todayStr();
+  else if (dueSel.value === 'tomorrow') due = addDays(todayStr(), 1);
+  else due = (dueDateEl && dueDateEl.value) ? dueDateEl.value : todayStr();
+  var labelId = ui.selectedLabelId || state.labels[0].id;
+  var newTask = {
+    id: 't' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    text: text, labelId: labelId, due: due, done:false, doneDate:null,
+    flaggedOverdue:false, createdDate: todayStr()
+  };
+  state.tasks.push(newTask);
+  state.lastActivityDate = todayStr();
+  scheduleTaskNotification(newTask);
+  rescheduleNeglectNotification();
+  saveAndRender();
+}
+function onDueSelectChange(v){
+  var dateInput = document.getElementById('newTaskDueDate');
+  if (dateInput) dateInput.style.display = (v==='date') ? 'inline-block' : 'none';
+}
+function onLabelSelectChange(v){
+  var form = document.getElementById('newLabelForm');
+  if (v === '__new'){ if (form) form.style.display = 'flex'; }
+  else { ui.selectedLabelId = v; if (form) form.style.display = 'none'; }
+}
+function pickLabelColor(c, btnEl){
+  ui.pendingLabelColor = c;
+  var swatches = document.querySelectorAll('.color-swatch');
+  for (var i=0;i<swatches.length;i++) swatches[i].classList.remove('selected');
+  if (btnEl) btnEl.classList.add('selected');
+}
+function pickEventColor(c, btnEl){
+  ui.pendingEventColor = c;
+  var container = btnEl ? btnEl.parentElement : null;
+  var swatches = container ? container.querySelectorAll('.color-swatch') : document.querySelectorAll('.color-swatch');
+  for (var i=0;i<swatches.length;i++) swatches[i].classList.remove('selected');
+  if (btnEl) btnEl.classList.add('selected');
+}
+function createLabel(name, color){
+  var id = 'l' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  state.labels.push({ id:id, name:name, color: color || LABEL_COLORS[2] });
+  return id;
+}
+function saveNewLabel(){
+  var nameInput = document.getElementById('newLabelName');
+  var name = nameInput ? nameInput.value.trim() : '';
+  if (!name) return;
+  ui.selectedLabelId = createLabel(name, ui.pendingLabelColor);
+  saveAndRender();
+}
+function saveNewLabelStandalone(){
+  var nameInput = document.getElementById('newLabelNameStandalone');
+  var name = nameInput ? nameInput.value.trim() : '';
+  if (!name) return;
+  createLabel(name, ui.pendingLabelColor);
+  ui.pendingLabelColor = LABEL_COLORS[2];
+  saveAndRender();
+}
+function renameLabel(id){
+  var l = state.labels.filter(function(x){ return x.id===id; })[0];
+  if (!l) return;
+  var name = prompt(t('promptRenameLabel', { name: l.name }), l.name);
+  if (name && name.trim()){ l.name = name.trim(); saveAndRender(); }
+}
+function deleteLabel(id){
+  if (id === 'unlabeled') return;
+  if (!confirm(t('confirmDeleteLabel'))) return;
+  state.tasks.forEach(function(t){ if (t.labelId===id) t.labelId='unlabeled'; });
+  state.labels = state.labels.filter(function(l){ return l.id !== id; });
+  saveAndRender();
+}
+function setFilter(f){
+  state.filter = f;
+  if (f !== 'date') state.selectedDate = null;
+  saveAndRender();
+}
+function toggleCluster(){ state.clusterByLabel = !state.clusterByLabel; saveAndRender(); }
+function toggleHistory(){ ui.historyExpanded = !ui.historyExpanded; render(); }
+function toggleSettings(){ ui.settingsOpen = !ui.settingsOpen; render(); }
+function toggleLabelsPanel(){ ui.labelsExpanded = !ui.labelsExpanded; render(); }
+function selectCalendarDate(dateStr){
+  if (state.selectedDate === dateStr && state.filter === 'date'){
+    state.selectedDate = null;
+    state.filter = 'today';
+  } else {
+    state.selectedDate = dateStr;
+    state.filter = 'date';
+  }
+  ui.showEventForm = false;
+  ui.pendingEventColor = null;
+  saveAndRender();
+}
+function shiftMonth(delta){
+  var m = state.calendarView.month + delta;
+  var y = state.calendarView.year;
+  if (m < 0){ m = 11; y--; }
+  if (m > 11){ m = 0; y++; }
+  state.calendarView = { year:y, month:m };
+  saveAndRender();
+}
+function toggleEventForm(){ ui.showEventForm = !ui.showEventForm; ui.pendingEventColor = null; render(); }
+function addEvent(){
+  if (!state.selectedDate) return;
+  var titleEl = document.getElementById('newEventTitle');
+  var timeEl = document.getElementById('newEventTime');
+  var remEl = document.getElementById('newEventReminder');
+  var title = titleEl ? titleEl.value.trim() : '';
+  if (!title) return;
+  var ev = {
+    id: 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    title: title,
+    date: state.selectedDate,
+    time: (timeEl && timeEl.value) ? timeEl.value : null,
+    color: ui.pendingEventColor || null,
+    reminderEnabled: remEl ? remEl.checked : true,
+    createdDate: todayStr()
+  };
+  state.events.push(ev);
+  scheduleEventNotification(ev);
+  ui.showEventForm = false;
+  ui.pendingEventColor = null;
+  saveAndRender();
+}
+function deleteEvent(id){
+  if (!confirm(t('confirmDeleteEvent'))) return;
+  var ev = state.events.filter(function(e){ return e.id===id; })[0];
+  if (ev) cancelEventNotification(ev);
+  state.events = state.events.filter(function(e){ return e.id !== id; });
+  saveAndRender();
+}
+function toggleEventReminder(id){
+  var ev = state.events.filter(function(e){ return e.id===id; })[0];
+  if (!ev) return;
+  ev.reminderEnabled = !ev.reminderEnabled;
+  if (ev.reminderEnabled) scheduleEventNotification(ev); else cancelEventNotification(ev);
+  saveAndRender();
+}
+function setPalette(key){
+  var p = PALETTES[key];
+  if (!p || state.maxGrowthEver < p.unlock) return;
+  state.customization.palette = key;
+  saveAndRender();
+}
+function setPodest(key){
+  var p = PODESTE[key];
+  if (!p || state.maxGrowthEver < p.unlock) return;
+  state.customization.podest = key;
+  saveAndRender();
+}
+function setManeColor(c){
+  if (state.maxGrowthEver < MANE_UNLOCK_GROWTH) return;
+  state.customization.maneColor = c;
+  saveAndRender();
+}
+function setLanguage(lang){
+  if (lang !== 'de' && lang !== 'en') return;
+  state.language = lang;
+  saveAndRender();
+}
+function setExtraReaction(key){
+  var def = EXTRA_REACTIONS[key];
+  if (!def || state.maxGrowthEver < def.unlock) return;
+  state.customization.extraReaction = key;
+  saveAndRender();
+}
+function setTailStyle(key){
+  var def = TAIL_STYLES[key];
+  if (!def || state.maxGrowthEver < def.unlock) return;
+  state.customization.tailStyle = key;
+  saveAndRender();
+}
+function setTreePosition(pos){
+  if (!TREE_POSITIONS[pos] || (state.totalCompleted || 0) < TREE_UNLOCK_COMPLETED) return;
+  state.customization.treePosition = pos;
+  saveAndRender();
+}
+function toggleReminderEnabled(v){ state.reminder.enabled = v; rescheduleDailyReminder(); saveAndRender(); }
+function setReminderTime(v){ state.reminder.time = v; rescheduleDailyReminder(); saveAndRender(); }
+function toggleWarnings(v){ state.reminder.warnings = v; rescheduleNeglectNotification(); saveAndRender(); }
+function toggleMotivational(v){ state.reminder.motivational = v; saveAndRender(); }
+function dismissReminder(){ state.reminder.lastDismissedDate = todayStr(); saveAndRender(); }
+function requestNotifPermission(){
+  var ln = capNotif();
+  if (ln){
+    try{ ln.requestPermissions().then(function(){ rescheduleDailyReminder(); rescheduleNeglectNotification(); saveAndRender(); }); }catch(e){}
+    return;
+  }
+  if (!('Notification' in window)){ alert(t('alertNoNotifSupport')); return; }
+  Notification.requestPermission().then(function(){ saveAndRender(); });
+}
+function setPhoto(file){
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var img = new Image();
+    img.onload = function(){
+      var maxDim = 500, w = img.width, h = img.height;
+      if (w > h && w > maxDim){ h = Math.round(h*maxDim/w); w = maxDim; }
+      else if (h > maxDim){ w = Math.round(w*maxDim/h); h = maxDim; }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      state.customPhoto = canvas.toDataURL('image/jpeg', 0.72);
+      saveAndRender();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function exportData(){
+  var blob = new Blob([JSON.stringify(state, null, 2)], { type:'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'maehne-backup-' + todayStr() + '.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function importData(file){
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var imported;
+    try{ imported = JSON.parse(e.target.result); }catch(err){ alert(t('alertInvalidJson')); return; }
+    if (!imported || !Array.isArray(imported.tasks) || !Array.isArray(imported.labels)){
+      alert(t('alertInvalidBackup'));
+      return;
+    }
+    state = migrateState(imported);
+    ui.selectedLabelId = (state.labels.filter(function(l){ return l.id!=='unlabeled'; })[0] || state.labels[0]).id;
+    checkFeedingStatus();
+    saveAndRender();
+  };
+  reader.readAsText(file);
+}
+
+// ---------- Reaktions-Animation ----------
+function flash(el, cls, ms){
+  if (!el) return;
+  el.classList.add(cls);
+  setTimeout(function(){ el.classList.remove(cls); }, ms);
+}
+function triggerReaction(){
+  var svgEl = document.querySelector('.lion-svg');
+  if (!svgEl) return;
+  var idx = LEVELS.indexOf(levelForGrowth(state.growth));
+  var tier = Math.min(3, Math.floor(idx/2));
+  if (tier === 0){
+    flash(svgEl.querySelector('.lion-paws-front'), 'anim-paw-raise', 700);
+  } else if (tier === 1){
+    flash(svgEl.querySelector('.lion-ears'), 'anim-ear-wiggle', 700);
+    flash(svgEl.querySelector('.lion-tail'), 'anim-tail-flick', 700);
+  } else if (tier === 2){
+    flash(svgEl, 'anim-jump', 800);
+  } else {
+    flash(svgEl, 'anim-jump', 800);
+    flash(svgEl, 'anim-glow', 1200);
+  }
+}
+function spawnDustPuff(){
+  var stage = document.querySelector('.creature-stage');
+  if (!stage) return;
+  var puff = document.createElement('div');
+  puff.className = 'dust-puff';
+  stage.appendChild(puff);
+  setTimeout(function(){ puff.remove(); }, 700);
+}
+function spawnPawSparkle(){
+  var heading = document.querySelector('.aufgaben-panel h2');
+  if (!heading) return;
+  var el = document.createElement('span');
+  el.className = 'paw-sparkle';
+  el.textContent = '🐾';
+  heading.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 900);
+}
+function triggerExtraEffect(){
+  var key = state.customization.extraReaction || 'none';
+  var def = EXTRA_REACTIONS[key];
+  if (!def || key === 'none' || state.maxGrowthEver < def.unlock) return;
+  if (key === 'blink'){
+    document.querySelectorAll('.eye-pupil').forEach(function(el){ flash(el, 'anim-blink', 500); });
+  } else if (key === 'headturn'){
+    flash(document.querySelector('.lion-head'), 'anim-head-turn', 600);
+  } else if (key === 'dust'){
+    spawnDustPuff();
+  } else if (key === 'sparkle'){
+    spawnPawSparkle();
+  }
+}
+// ---------- Beutetiere (Fisch / Krebs) ----------
+function preyTypeFor(id){
+  var h = 0, s = String(id);
+  for (var i=0;i<s.length;i++) h = (h*31 + s.charCodeAt(i)) & 0x7fffffff;
+  return (h % 5 === 0) ? 'crab' : 'fish';
+}
+function preySVG(type){
+  if (type === 'crab'){
+    return '<svg viewBox="0 0 32 24" width="20" height="15" aria-hidden="true">' +
+      '<g stroke="#b4573f" stroke-width="1.6" fill="none" stroke-linecap="round">' +
+        '<path d="M9 14 L4 18"/><path d="M13 16 L11 21"/><path d="M19 16 L21 21"/><path d="M23 14 L28 18"/>' +
+      '</g>' +
+      '<path d="M7 10 Q4 6 7 4 Q10 6 9 9" fill="#c9634a"/>' +
+      '<path d="M25 10 Q28 6 25 4 Q22 6 23 9" fill="#c9634a"/>' +
+      '<ellipse cx="16" cy="12" rx="9" ry="6.5" fill="#c9634a"/>' +
+      '<ellipse cx="16" cy="10.5" rx="6" ry="3.5" fill="#dd7e64" opacity="0.7"/>' +
+      '<circle cx="13" cy="8" r="1.3" fill="#2a1512"/><circle cx="19" cy="8" r="1.3" fill="#2a1512"/>' +
+    '</svg>';
+  }
+  return '<svg viewBox="0 0 32 20" width="20" height="13" aria-hidden="true">' +
+    '<path d="M24 10 L31 5 L31 15 Z" fill="#4f9d93"/>' +
+    '<ellipse cx="14" cy="10" rx="12" ry="6.5" fill="#5fb3a8"/>' +
+    '<path d="M8 10 Q14 4 21 8" stroke="#3f8a80" stroke-width="1.4" fill="none" opacity="0.8"/>' +
+    '<path d="M13 4.5 Q16 1 19 5" fill="#4f9d93"/>' +
+    '<circle cx="6" cy="9" r="1.6" fill="#0d2029"/>' +
+    '<circle cx="6.5" cy="8.5" r="0.5" fill="#fff"/>' +
+  '</svg>';
+}
+function waitForScrollEnd(cb){
+  var last = window.scrollY, still = 0, tries = 0;
+  var iv = setInterval(function(){
+    tries++;
+    if (Math.abs(window.scrollY - last) < 1){ still++; } else { still = 0; }
+    last = window.scrollY;
+    if (still >= 3 || tries > 60){ clearInterval(iv); cb(); }
+  }, 50);
+}
+function flyPrey(type, from){
+  var svg = document.querySelector('.lion-svg');
+  var zone = document.querySelector('.scene-zone');
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!svg || !from || reduced){ chompBite(); return; }
+
+  var el = document.createElement('div');
+  el.className = 'flying-prey';
+  el.innerHTML = preySVG(type);
+  el.style.left = from.x + 'px';
+  el.style.top = from.y + 'px';
+  document.body.appendChild(el);
+
+  // Phase 1: Beute wandert in die Bildschirmmitte und bleibt dort liegen
+  var cx = window.innerWidth / 2;
+  var cy = window.innerHeight / 2;
+  var toCenter = 'translate(' + (cx - from.x) + 'px,' + (cy - from.y) + 'px) scale(2.1) rotate(-8deg)';
+  var a1 = el.animate([
+    { transform:'translate(0px,0px) scale(1) rotate(0deg)' },
+    { transform:toCenter }
+  ], { duration:520, easing:'cubic-bezier(.25,.8,.35,1)', fill:'forwards' });
+
+  // Gleichzeitig die Seite zum Otter hochscrollen
+  if (zone && zone.scrollIntoView){
+    try { zone.scrollIntoView({ behavior:'smooth', block:'center' }); }
+    catch(err){ zone.scrollIntoView(); }
+  }
+
+  a1.onfinish = function(){
+    waitForScrollEnd(function(){
+      // Phase 2: erst jetzt, wenn der Otter sichtbar ist, den Bogen zur Schnauze
+      var target = document.querySelector('.lion-svg');
+      if (!target){ el.remove(); chompBite(); return; }
+      var r = target.getBoundingClientRect();
+      var toX = r.left + r.width/2;
+      var toY = r.top + r.height * 0.56;
+      var dx = toX - from.x, dy = toY - from.y;
+      var mx = cx - from.x, my = cy - from.y;
+      var arc = -Math.max(42, Math.abs(toX - cx) * 0.4);
+
+      var a2 = el.animate([
+        { transform:toCenter },
+        { transform:'translate(' + ((mx+dx)/2) + 'px,' + ((my+dy)/2 + arc) + 'px) scale(1.7) rotate(-16deg)', offset:0.55 },
+        { transform:'translate(' + dx + 'px,' + dy + 'px) scale(0.55) rotate(12deg)', opacity:0.9 }
+      ], { duration:900, easing:'cubic-bezier(.4,.05,.6,1)', fill:'forwards' });
+
+      a2.onfinish = function(){
+        el.remove();
+        chompBite();
+      };
+    });
+  };
+}
+function chompBite(){
+  var head = document.querySelector('.lion-head');
+  flash(head, 'anim-chomp', 500);
+  var svg = document.querySelector('.lion-svg');
+  if (!svg) return;
+  var r = svg.getBoundingClientRect();
+  for (var i=0;i<5;i++){
+    (function(i){
+      var d = document.createElement('div');
+      d.className = 'chomp-drop';
+      d.style.left = (r.left + r.width/2 + (Math.random()*26-13)) + 'px';
+      d.style.top  = (r.top + r.height*0.56) + 'px';
+      d.style.setProperty('--ddx', (Math.random()*44-22).toFixed(0) + 'px');
+      d.style.animationDelay = (i*30) + 'ms';
+      document.body.appendChild(d);
+      setTimeout(function(){ d.remove(); }, 700 + i*30);
+    })(i);
+  }
+  setTimeout(function(){
+    triggerReaction();
+    triggerExtraEffect();
+  }, 260);
+}
+function preyRectFor(id){
+  var el = document.querySelector('.prey-icon[data-task="' + id + '"]');
+  if (!el) return null;
+  var r = el.getBoundingClientRect();
+  return { x: r.left + r.width/2, y: r.top + r.height/2 };
+}
+
+function eyeParallax(e){
+  var svg = document.querySelector('.lion-svg');
+  if (!svg) return;
+  var rect = svg.getBoundingClientRect();
+  var cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+  var max = 1.6;
+  var dx = Math.max(-max, Math.min(max, (e.clientX-cx)/40));
+  var dy = Math.max(-max, Math.min(max, (e.clientY-cy)/40));
+  var pupils = document.querySelectorAll('.eye-pupil');
+  for (var i=0;i<pupils.length;i++) pupils[i].setAttribute('transform', 'translate(' + dx + ' ' + dy + ')');
+}
+
+// ---------- Umherstreifen am Ufer ----------
+var wander = { x:0, target:0, face:1, walking:false, pauseUntil:0, raf:null, last:0 };
+
+function wanderRange(){
+  var zone = document.querySelector('.scene-zone');
+  var w = zone ? zone.clientWidth : 300;
+  var r = Math.max(20, Math.min(90, w * 0.26));
+  // Auf einem Felsen bleibt er in der Nähe seines Liegeplatzes
+  if ((state.customization.podest || 'none') !== 'none') r = Math.min(r, 14);
+  return r;
+}
+function pickWanderTarget(){
+  var r = wanderRange();
+  var next = wander.x, tries = 0;
+  do {
+    next = (Math.random() * 2 - 1) * r;
+    tries++;
+  } while (Math.abs(next - wander.x) < r * 0.35 && tries < 12);
+  wander.target = next;
+  wander.face = (next < wander.x) ? -1 : 1;
+  wander.walking = true;
+}
+function wanderStep(ts){
+  wander.raf = requestAnimationFrame(wanderStep);
+  var svg = document.querySelector('.lion-svg');
+  if (!svg) return;
+  // Ohnmächtig oder auf dem Felsen sitzend: kein Umherlaufen
+  if (svg.classList.contains('mood-fainted')){
+    svg.style.transform = '';
+    wander.walking = false;
+    return;
+  }
+  var dt = wander.last ? Math.min(0.05, (ts - wander.last) / 1000) : 0;
+  wander.last = ts;
+
+  var bobY = 0, tilt = 0;
+  if (wander.walking){
+    var speed = svg.classList.contains('mood-sad') ? 16 : 26; // px/s
+    var dir = (wander.target > wander.x) ? 1 : -1;
+    wander.x += dir * speed * dt;
+    if ((dir > 0 && wander.x >= wander.target) || (dir < 0 && wander.x <= wander.target)){
+      wander.x = wander.target;
+      wander.walking = false;
+      wander.pauseUntil = ts + 2200 + Math.random() * 5000;
+    }
+    var phase = ts / 1000 * 7.5;
+    bobY = -Math.abs(Math.sin(phase)) * 2.2;
+    tilt = Math.sin(phase) * 2.2;
+  } else if (ts >= wander.pauseUntil){
+    pickWanderTarget();
+  } else {
+    // ruhiges Atmen im Stehen
+    bobY = Math.sin(ts / 1000 * 1.6) * 0.8;
+  }
+  svg.style.setProperty('--wx', wander.x.toFixed(1) + 'px');
+  svg.style.setProperty('--face', wander.face);
+  svg.style.transform = 'translate(' + wander.x.toFixed(1) + 'px,' + bobY.toFixed(2) + 'px) rotate(' + tilt.toFixed(2) + 'deg) scaleX(' + wander.face + ')';
+}
+function startWander(){
+  if (wander.raf) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  wander.pauseUntil = performance.now() + 1200;
+  wander.last = 0;
+  wander.raf = requestAnimationFrame(wanderStep);
+}
+
+// ---------- SVG-Bausteine ----------
+function renderLionSVG(stageIdx, maneStage){
+  var pal = PALETTES[state.customization.palette] || PALETTES.savanna;
+  var patchColor = state.customization.maneColor || pal.belly;
+  var tailDef = TAIL_STYLES[state.customization.tailStyle] || TAIL_STYLES.classic;
+  var scale = 0.5 + LEVELS[stageIdx].size * 0.6;
+
+  var gapDays = daysBetween(state.lastActivityDate, todayStr());
+  var mood = gapDays >= DRAMATIC_NEGLECT_DAYS ? 'fainted' : (gapDays >= NEGLECT_DAYS ? 'sad' : 'happy');
+
+  var mouthPath = (mood === 'happy')
+    ? '<path d="M94 121 Q100 126 106 121" stroke="' + pal.bodyDark + '" stroke-width="1.8" fill="none" stroke-linecap="round"/>'
+    : '<path d="M94 125 Q100 120 106 125" stroke="' + pal.bodyDark + '" stroke-width="1.8" fill="none" stroke-linecap="round"/>';
+
+  var eyesHtml = (mood === 'fainted')
+    ? '<g class="eye-pupil"><path d="M85 100 L91 106 M91 100 L85 106" stroke="#0a1416" stroke-width="2.2" stroke-linecap="round"/></g>' +
+      '<g class="eye-pupil"><path d="M109 100 L115 106 M115 100 L109 106" stroke="#0a1416" stroke-width="2.2" stroke-linecap="round"/></g>'
+    : '<g class="eye-pupil"><ellipse cx="88" cy="103" rx="4" ry="4.2" fill="#0a1416"/><circle cx="89.4" cy="101.4" r="1.2" fill="#fff" opacity="0.9"/></g>' +
+      '<g class="eye-pupil"><ellipse cx="112" cy="103" rx="4" ry="4.2" fill="#0a1416"/><circle cx="113.4" cy="101.4" r="1.2" fill="#fff" opacity="0.9"/></g>';
+
+  var whiskers = '<g stroke="' + patchColor + '" stroke-width="0.9" opacity="0.5" stroke-linecap="round" fill="none">' +
+    '<path d="M91 116 Q80 112 70 110"/><path d="M91 118 Q79 117 68 117"/><path d="M91 120 Q80 122 71 126"/>' +
+    '<path d="M109 116 Q120 112 130 110"/><path d="M109 118 Q121 117 132 117"/><path d="M109 120 Q120 122 129 126"/>' +
+  '</g>';
+
+  // Kehlfleck & Brustzeichnung wachsen mit
+  var patch = '';
+  if (maneStage >= 1){
+    patch += '<path d="M100 128 Q109 130 110 140 Q106 148 100 149 Q94 148 90 140 Q91 130 100 128 Z" fill="' + patchColor + '" opacity="0.9"/>';
+  }
+  if (maneStage >= 2){
+    patch += '<ellipse cx="100" cy="158" rx="21" ry="12" fill="' + patchColor + '" opacity="0.55"/>';
+  }
+
+  return '<svg viewBox="0 0 200 200" width="160" height="160" class="lion-svg lion-stage-' + stageIdx + ' mood-' + mood + '">' +
+    '<defs>' +
+      '<linearGradient id="otterCoat" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="' + pal.body + '"/>' +
+        '<stop offset="100%" stop-color="' + pal.bodyDark + '"/>' +
+      '</linearGradient>' +
+    '</defs>' +
+    '<g transform="translate(100 130) scale(' + scale + ') translate(-100 -130)">' +
+      // kräftiger, sich verjüngender Ruderschwanz
+      '<path class="lion-tail" d="' + tailDef.d + '" stroke="url(#otterCoat)" stroke-width="15" fill="none" stroke-linecap="round" opacity="0.95"/>' +
+      '<path class="lion-tail" d="' + tailDef.d + '" stroke="' + pal.bodyDark + '" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.4"/>' +
+      // Hinterläufe
+      '<ellipse cx="72" cy="170" rx="11" ry="8" fill="' + pal.bodyDark + '"/>' +
+      '<ellipse cx="128" cy="170" rx="11" ry="8" fill="' + pal.bodyDark + '"/>' +
+      // langgestreckter Rumpf
+      '<ellipse cx="100" cy="152" rx="44" ry="27" fill="url(#otterCoat)"/>' +
+      '<ellipse cx="100" cy="160" rx="27" ry="13" fill="' + pal.belly + '" opacity="0.45"/>' +
+      patch +
+      '<g class="lion-head">' +
+        // breiter, abgeflachter Otterkopf
+        '<ellipse cx="100" cy="106" rx="29" ry="25" fill="url(#otterCoat)"/>' +
+        // tief und weit sitzende Rundohren
+        '<g class="lion-ears">' +
+          '<ellipse cx="76" cy="94" rx="7" ry="6" fill="' + pal.bodyDark + '"/>' +
+          '<ellipse cx="124" cy="94" rx="7" ry="6" fill="' + pal.bodyDark + '"/>' +
+          '<ellipse cx="76.5" cy="94.5" rx="3" ry="2.6" fill="' + pal.belly + '" opacity="0.6"/>' +
+          '<ellipse cx="123.5" cy="94.5" rx="3" ry="2.6" fill="' + pal.belly + '" opacity="0.6"/>' +
+        '</g>' +
+        // helle Wangen/Schnauzenpartie
+        '<ellipse cx="100" cy="118" rx="19" ry="12" fill="' + pal.belly + '" opacity="0.5"/>' +
+        eyesHtml +
+        whiskers +
+        // kräftige Schnurrhaarpolster
+        '<ellipse cx="93" cy="117" rx="7" ry="5.5" fill="' + pal.belly + '" opacity="0.35"/>' +
+        '<ellipse cx="107" cy="117" rx="7" ry="5.5" fill="' + pal.belly + '" opacity="0.35"/>' +
+        // breite Otternase
+        '<path d="M94 112 Q100 108 106 112 Q104 116 100 116.5 Q96 116 94 112 Z" fill="' + pal.bodyDark + '"/>' +
+        mouthPath +
+      '</g>' +
+      // kurze Vorderpfoten mit Schwimmhäuten
+      '<g class="lion-paws-front">' +
+        '<ellipse cx="84" cy="176" rx="9" ry="6" fill="' + pal.bodyDark + '"/>' +
+        '<ellipse cx="116" cy="176" rx="9" ry="6" fill="' + pal.bodyDark + '"/>' +
+        '<g stroke="' + pal.belly + '" stroke-width="0.8" opacity="0.35">' +
+          '<path d="M81 174 L81 179"/><path d="M84 173.5 L84 179.5"/><path d="M87 174 L87 179"/>' +
+          '<path d="M113 174 L113 179"/><path d="M116 173.5 L116 179.5"/><path d="M119 174 L119 179"/>' +
+        '</g>' +
+      '</g>' +
+    '</g>' +
+  '</svg>';
+}
+function renderPodestSVG(type){
+  var p = PODESTE[type] || PODESTE.none;
+  if (!p.height) return '';
+  var h = p.height;
+  return '<svg viewBox="0 0 200 ' + (h+10) + '" width="170" class="podest-svg">' +
+    '<path d="M8 ' + (h+8) + ' L18 ' + Math.round(h*0.42) + ' L54 ' + Math.round(h*0.18) + ' L100 4 L146 ' + Math.round(h*0.22) + ' L182 ' + Math.round(h*0.46) + ' L192 ' + (h+8) + ' Z" fill="#5a4a34" stroke="#3f3222" stroke-width="2"/>' +
+    '<path d="M38 ' + Math.round(h*0.55) + ' L62 ' + Math.round(h*0.3) + ' L92 ' + Math.round(h*0.16) + '" stroke="#6b5a40" stroke-width="2" fill="none" opacity="0.6"/>' +
+    '<path d="M120 ' + Math.round(h*0.5) + ' L145 ' + Math.round(h*0.28) + '" stroke="#40331f" stroke-width="2" fill="none" opacity="0.5"/>' +
+  '</svg>';
+}
+var SKY_PHASES = {
+  sunrise: { top:'#25415c', mid:'#3f7d7a', bottom:'#0d2029', sun:'#8fe0cd', halo:'rgba(143,224,205,0.35)', cx:44,  cy:96, water:'#16404a' },
+  day:     { top:'#1e4f6b', mid:'#2e8f8a', bottom:'#0d2029', sun:'#c9f2e6', halo:'rgba(201,242,230,0.28)', cx:150, cy:34, water:'#123f4c' },
+  sunset:  { top:'#1b2c47', mid:'#2f6d70', bottom:'#08141a', sun:'#6fbfae', halo:'rgba(111,191,174,0.35)', cx:256, cy:96, water:'#0f333d' },
+  night:   { top:'#050b14', mid:'#0a1720', bottom:'#08141a', sun:'#cfe6e2', halo:'rgba(207,230,226,0.2)',  cx:210, cy:32, water:'#08202a' }
+};
+var FIREFLIES = [
+  { l:10, t:58, d:0 },   { l:20, t:38, d:0.7 }, { l:33, t:66, d:1.3 }, { l:46, t:32, d:0.3 },
+  { l:57, t:52, d:1.8 }, { l:67, t:28, d:1.0 }, { l:78, t:60, d:0.2 }, { l:88, t:40, d:1.5 },
+  { l:40, t:48, d:2.1 }
+];
+function scenePhase(){
+  var idx = Math.floor((state.totalCompleted || 0) / 5) % 4;
+  return ['sunrise','day','sunset','night'][idx];
+}
+function renderFireflies(){
+  return '<div class="fireflies">' + FIREFLIES.map(function(f){
+    return '<span class="firefly" style="left:' + f.l + '%; top:' + f.t + '%; animation-delay:' + f.d + 's;"></span>';
+  }).join('') + '</div>';
+}
+function renderSceneSVG(phase){
+  var sp = SKY_PHASES[phase] || SKY_PHASES.day;
+  var glow = Math.min(1, state.growth/100);
+  var stars = '';
+  if (phase === 'night'){
+    var starPos = [[20,20],[50,14],[80,28],[112,10],[160,22],[200,16],[232,30],[252,12],[30,45],[190,40],[270,50]];
+    stars = starPos.map(function(p){ return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="1.1" fill="#dff0ec" opacity="0.85"/>'; }).join('');
+  }
+  return '<svg viewBox="0 0 300 200" preserveAspectRatio="none" class="scene-svg">' +
+    '<defs>' +
+      '<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="' + sp.top + '"/>' +
+        '<stop offset="55%" stop-color="' + sp.mid + '"/>' +
+        '<stop offset="100%" stop-color="' + sp.bottom + '"/>' +
+      '</linearGradient>' +
+      '<radialGradient id="glow" cx="50%" cy="70%" r="60%">' +
+        '<stop offset="0%" stop-color="#5fd3c4" stop-opacity="' + (0.05 + glow*0.35) + '"/>' +
+        '<stop offset="100%" stop-color="#5fd3c4" stop-opacity="0"/>' +
+      '</radialGradient>' +
+    '</defs>' +
+    '<rect width="300" height="200" fill="url(#sky)"/>' +
+    stars +
+    '<circle cx="' + sp.cx + '" cy="' + sp.cy + '" r="27" fill="' + sp.halo + '"/>' +
+    '<circle cx="' + sp.cx + '" cy="' + sp.cy + '" r="15" fill="' + sp.sun + '"/>' +
+    '<rect width="300" height="200" fill="url(#glow)"/>' +
+    '<path d="M0 170 Q30 160 60 170 Q90 162 120 170 Q150 160 180 170 Q210 162 240 170 Q270 160 300 170 L300 200 L0 200 Z" fill="#102b26"/>' +
+    '<g stroke="#1f4a3c" stroke-width="2" opacity="0.7">' +
+      '<path d="M20 170 L18 155"/><path d="M40 173 L36 157"/><path d="M260 170 L264 153"/><path d="M280 173 L284 155"/>' +
+    '</g>' +
+    '<path d="M0 188 Q40 180 80 188 Q120 194 160 188 Q200 182 240 188 Q270 191 300 187 L300 200 L0 200 Z" fill="' + sp.water + '" opacity="0.88"/>' +
+    '<g stroke="#dff0ec" stroke-width="1" opacity="0.22" fill="none">' +
+      '<path d="M10 193 Q40 190 70 193"/><path d="M110 197 Q140 194 170 197"/><path d="M200 192 Q230 189 260 192"/>' +
+    '</g>' +
+  '</svg>';
+}
+
+function renderSceneBackground(){
+  var phase = scenePhase();
+  var bg;
+  if (state.customPhoto){
+    var glow = Math.min(1, state.growth/100);
+    bg = '<img class="scene-photo" src="' + state.customPhoto + '" alt="Eigener Hintergrund">' +
+      '<div class="scene-glow" style="background:radial-gradient(circle at 50% 75%, rgba(95,211,196,' + (0.05+glow*0.35) + '), transparent 60%);"></div>';
+    if (phase === 'night') bg += '<div class="scene-night-tint"></div>';
+  } else {
+    bg = renderSceneSVG(phase);
+  }
+  var treePos = state.customization.treePosition || 'off';
+  if (treePos !== 'off' && (state.totalCompleted || 0) >= TREE_UNLOCK_COMPLETED){
+    bg += '<div class="tree-layer tree-' + treePos + '">' + renderBaobabSVG(phase) + '</div>';
+  }
+  if (phase === 'night') bg += renderFireflies();
+  bg += '<span class="phase-badge">' + t('phase_' + phase) + '</span>';
+  return bg;
+}
+
+// ---------- Render-Funktionen ----------
+function renderHeader(){
+  var days = state.firstTaskDate ? (daysBetween(state.firstTaskDate, todayStr()) + 1) : null;
+  var badge = (days !== null) ? t('dayBadge', { n: days }) : t('dayBadgeStart');
+  return '<header class="top">' +
+    '<div>' +
+      '<div class="eyebrow">' + t('eyebrow') + '</div>' +
+      '<h1>Otter 🦦</h1>' +
+      '<div class="subtitle">' + t('subtitle') + '</div>' +
+    '</div>' +
+    '<div class="header-actions">' +
+      '<span class="badge mono">' + badge + '</span>' +
+    '</div>' +
+  '</header>' +
+  '<button class="gear-btn" title="' + t('settingsTitle') + '" onclick="App.toggleSettings()">⚙️</button>';
+}
+function renderNotices(){
+  if (!state.notices || !state.notices.length) return '';
+  return '<div class="notices">' + state.notices.slice(0,2).map(function(n){
+    var icon = n.type==='warning' ? '⚠ ' : (n.type==='motivate' ? '✓ ' : '🔔 ');
+    return '<div class="notice ' + n.type + '">' + icon + escapeHtml(n.text) + '</div>';
+  }).join('') + '</div>';
+}
+function renderReminderBanner(){
+  var r = state.reminder;
+  if (!r.enabled) return '';
+  var now = new Date();
+  var parts = r.time.split(':');
+  var hh = parseInt(parts[0],10), mm = parseInt(parts[1],10);
+  var due = (now.getHours() > hh) || (now.getHours()===hh && now.getMinutes() >= mm);
+  var today = todayStr();
+  var doneToday = state.tasks.some(function(x){ return x.done && x.doneDate===today; });
+  if (!due || doneToday || r.lastDismissedDate===today) return '';
+  return '<div class="reminder-banner">' + t('reminderBannerText') +
+    '<button class="btn small" onclick="App.dismissReminder()">' + t('reminderBannerDismiss') + '</button>' +
+  '</div>';
+}
+function renderSavanne(){
+  var lvl = levelForGrowth(state.growth);
+  var idx = LEVELS.indexOf(lvl);
+  var pal = PALETTES[state.customization.palette] || PALETTES.savanna;
+  var gap = daysBetween(state.lastActivityDate, todayStr());
+  var atRisk = gap >= (NEGLECT_DAYS - 1);
+  var waitingHint = state.firstTaskDate ? '' : ('<div class="waiting-hint">' + t('waitingHint') + '</div>');
+
+  var marks = LEVELS.map(function(l){
+    return '<div class="gauge-mark" style="bottom:' + l.min + '%"></div>';
+  }).join('');
+
+  var recentMilestones = state.milestones.slice(-3);
+  var milestoneHtml = recentMilestones.length
+    ? ('<div class="milestone-list">' + recentMilestones.map(function(m){ return escapeHtml(t('lvl')[m.idx]) + ' · ' + fmtDate(m.date); }).join('<br>') + '</div>')
+    : '';
+
+  return '<section class="panel savanne-panel">' +
+    '<h2>' + t('savanneTitle') + '</h2>' +
+    '<input type="text" class="creature-name-input" maxlength="24" placeholder="' + t('namePlaceholder') + '" value="' + escapeHtml(state.creatureName || '') + '" onchange="App.setCreatureName(this.value)">' +
+    '<div class="scene-zone">' +
+      renderSceneBackground() +
+      '<div class="creature-stage">' +
+        renderLionSVG(idx, lvl.mane) +
+        renderPodestSVG(state.customization.podest) +
+      '</div>' +
+    '</div>' +
+    '<div class="gauge-row">' +
+      '<div class="gauge-track">' +
+        '<div class="gauge-fill" style="height:' + state.growth + '%; background:' + pal.accent + ';"></div>' +
+        marks +
+      '</div>' +
+      '<div class="gauge-info">' +
+        '<div class="level-name">' + (state.creatureName ? escapeHtml(state.creatureName) + ' · ' : '') + t('lvl')[idx] + '</div>' +
+        waitingHint +
+        '<div class="feed-status ' + (atRisk?'at-risk':'') + ' mono">' + (gap===0 ? t('fedToday') : t('daysSinceFeed', { n: gap })) + '</div>' +
+        milestoneHtml +
+        '<label class="btn ghost small file-label">' + t('choosePhoto') + '<input type="file" accept="image/*" onchange="App.setPhoto(this.files[0])" hidden></label>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
+}
+function filterLabelText(f){
+  return { today:t('filterToday'), tomorrow:t('filterTomorrow'), week:t('filterWeek'), all:t('filterAll') }[f] || f;
+}
+function renderTaskRow(task){
+  var l = labelById(task.labelId);
+  var overdue = !task.done && task.due < todayStr();
+  return '<div class="task-row ' + (task.done?'done':'') + '">' +
+    '<div class="task-left">' +
+      '<input type="checkbox" ' + (task.done?'checked disabled':'') + ' onchange="App.completeTask(\'' + task.id + '\')">' +
+      '<span class="prey-icon" data-task="' + task.id + '" title="' + (preyTypeFor(task.id)==='crab'?t('preyCrab'):t('preyFish')) + '">' + preySVG(preyTypeFor(task.id)) + '</span>' +
+      '<span class="task-text">' + escapeHtml(task.text) + '</span>' +
+    '</div>' +
+    '<div class="task-right">' +
+      '<span class="label-chip" style="background:' + l.color + '22;color:' + l.color + '">' + escapeHtml(labelDisplayName(l)) + '</span>' +
+      '<span class="due-chip mono ' + (overdue?'overdue':'') + '">' + (overdue ? t('overdue') : t('dueChip', { d: fmtDate(task.due) })) + '</span>' +
+      '<button class="icon-btn" title="' + t('deleteBtn') + '" onclick="App.deleteTask(\'' + task.id + '\')">✕</button>' +
+    '</div>' +
+  '</div>';
+}
+function renderAddTaskForm(){
+  var labelOptions = state.labels.map(function(l){
+    return '<option value="' + l.id + '" ' + (l.id===ui.selectedLabelId?'selected':'') + '>' + escapeHtml(labelDisplayName(l)) + '</option>';
+  }).join('') + '<option value="__new">' + t('newLabelOption') + '</option>';
+  var colorSwatches = LABEL_COLORS.map(function(c){
+    return '<button type="button" class="color-swatch ' + (ui.pendingLabelColor===c?'selected':'') + '" style="background:' + c + '" onclick="App.pickLabelColor(\'' + c + '\', this)"></button>';
+  }).join('');
+  return '<div class="add-task-form">' +
+    '<div class="form-row">' +
+      '<input id="newTaskText" type="text" placeholder="' + t('newTaskPlaceholder') + '" class="grow-input">' +
+      '<select id="newTaskLabel" onchange="App.onLabelSelectChange(this.value)">' + labelOptions + '</select>' +
+      '<select id="newTaskDue" onchange="App.onDueSelectChange(this.value)">' +
+        '<option value="today">' + t('dueToday') + '</option>' +
+        '<option value="tomorrow">' + t('dueTomorrow') + '</option>' +
+        '<option value="date">' + t('dueOn') + '</option>' +
+      '</select>' +
+      '<input id="newTaskDueDate" type="date" style="display:none" value="' + todayStr() + '">' +
+      '<button class="btn primary" onclick="App.addTaskFromForm()">' + t('addBtn') + '</button>' +
+    '</div>' +
+    '<div id="newLabelForm" class="new-label-form" style="display:none">' +
+      '<input id="newLabelName" type="text" placeholder="' + t('labelNamePlaceholder') + '">' +
+      '<div class="color-row">' + colorSwatches + '</div>' +
+      '<button class="btn small" onclick="App.saveNewLabel()">' + t('saveLabelBtn') + '</button>' +
+    '</div>' +
+  '</div>';
+}
+function visibleTaskGroups(){
+  var t = todayStr();
+  var tm = addDays(t,1);
+  var list = state.tasks.filter(function(x){ return !x.done; });
+  if (state.filter==='today') list = list.filter(function(x){ return x.due===t; });
+  else if (state.filter==='tomorrow') list = list.filter(function(x){ return x.due===tm; });
+  else if (state.filter==='date' && state.selectedDate) list = list.filter(function(x){ return x.due===state.selectedDate; });
+  else if (state.filter==='week'){ var wEnd = addDays(t,7); list = list.filter(function(x){ return x.due>=t && x.due<=wEnd; }); }
+  list.sort(function(a,b){ return a.due<b.due ? -1 : (a.due>b.due ? 1 : 0); });
+  if (!state.clusterByLabel) return { all: list };
+  var groups = {};
+  list.forEach(function(t2){ (groups[t2.labelId] = groups[t2.labelId] || []).push(t2); });
+  return groups;
+}
+function renderAufgabenPanel(){
+  var groups = visibleTaskGroups();
+  var groupsHtml = Object.keys(groups).map(function(key){
+    var items = groups[key];
+    var header = state.clusterByLabel ? ('<div class="label-group-title" style="color:' + labelById(key).color + '">' + escapeHtml(labelDisplayName(labelById(key))) + '</div>') : '';
+    var body = items.length ? items.map(renderTaskRow).join('') : '<div class="empty-hint">' + t('emptyTasks') + '</div>';
+    return header + '<div class="task-group">' + body + '</div>';
+  }).join('');
+  var tabs = ['today','tomorrow','week','all'].map(function(f){
+    return '<button class="tab ' + (state.filter===f?'active':'') + '" onclick="App.setFilter(\'' + f + '\')">' + filterLabelText(f) + '</button>';
+  }).join('');
+  var dateNote = (state.filter==='date' && state.selectedDate) ? ('<span class="tab active mono">' + fmtDate(state.selectedDate) + '</span>') : '';
+  return '<section class="panel aufgaben-panel">' +
+    '<h2>' + t('aufgabenTitle') + '</h2>' +
+    renderAddTaskForm() +
+    '<div class="filter-tabs">' + tabs + dateNote +
+      '<label class="cluster-toggle"><input type="checkbox" ' + (state.clusterByLabel?'checked':'') + ' onchange="App.toggleCluster()"> ' + t('clusterToggle') + '</label>' +
+    '</div>' +
+    '<div class="task-list">' + groupsHtml + '</div>' +
+  '</section>';
+}
+function renderKalenderPanel(){
+  var cal = state.calendarView;
+  var first = new Date(cal.year, cal.month, 1);
+  var startWeekday = (first.getDay() + 6) % 7;
+  var daysInMonth = new Date(cal.year, cal.month+1, 0).getDate();
+  var monthName = first.toLocaleDateString(t('localeCode'), { month:'long', year:'numeric' });
+  var cells = '';
+  for (var i=0;i<startWeekday;i++) cells += '<div class="cal-cell empty"></div>';
+  for (var d=1; d<=daysInMonth; d++){
+    var dateStr = cal.year + '-' + String(cal.month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    var count = state.tasks.filter(function(x){ return x.due===dateStr && !x.done; }).length;
+    var dayEvents = state.events.filter(function(e){ return e.date===dateStr; });
+    var isToday = dateStr===todayStr();
+    var isSelected = state.filter==='date' && state.selectedDate===dateStr;
+    var eventDots = dayEvents.slice(0,3).map(function(e){
+      return '<span class="cal-event-dot" style="background:' + (e.color || 'var(--sage)') + '"></span>';
+    }).join('');
+    cells += '<button class="cal-cell ' + (isToday?'today':'') + ' ' + (isSelected?'selected':'') + '" onclick="App.selectCalendarDate(\'' + dateStr + '\')">' +
+      '<span class="cal-day">' + d + '</span>' +
+      '<span class="cal-marks">' +
+        (count>0 ? ('<span class="cal-dot mono">' + count + '</span>') : '') +
+        eventDots +
+      '</span>' +
+    '</button>';
+  }
+  var weekdayHeaders = t('weekdays').map(function(w){ return '<div class="cal-weekday mono">' + w + '</div>'; }).join('');
+  return '<section class="panel kalender-panel">' +
+    '<div class="cal-header"><h2>' + t('kalenderTitle') + '</h2>' +
+      '<div class="cal-nav"><button class="icon-btn" onclick="App.shiftMonth(-1)">‹</button><span class="mono">' + monthName + '</span><button class="icon-btn" onclick="App.shiftMonth(1)">›</button></div>' +
+    '</div>' +
+    '<div class="cal-grid">' + weekdayHeaders + cells + '</div>' +
+    renderSelectedDayEvents() +
+  '</section>';
+}
+function renderSelectedDayEvents(){
+  if (!state.selectedDate) return '';
+  var d = state.selectedDate;
+  var evs = state.events.filter(function(e){ return e.date === d; }).slice().sort(function(a,b){
+    var ta = a.time || '', tb = b.time || '';
+    return ta < tb ? -1 : (ta > tb ? 1 : 0);
+  });
+  var list = evs.length ? evs.map(function(e){
+    var dot = '<span class="event-color-dot" style="background:' + (e.color || 'var(--sage)') + '"></span>';
+    return '<div class="task-row">' +
+      '<div class="task-left">' + dot + '<span class="task-text">' + escapeHtml(e.title) + (e.time ? (' <span class="mono" style="color:var(--muted)">· ' + e.time + '</span>') : '') + '</span></div>' +
+      '<div class="task-right">' +
+        '<button class="icon-btn" title="' + t('toggleReminderTitle') + '" onclick="App.toggleEventReminder(\'' + e.id + '\')">' + (e.reminderEnabled ? '🔔' : '🔕') + '</button>' +
+        '<button class="icon-btn" title="' + t('deleteBtn') + '" onclick="App.deleteEvent(\'' + e.id + '\')">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join('') : '<div class="empty-hint">' + t('emptyDayEvents') + '</div>';
+  var colorSwatches = LABEL_COLORS.map(function(c){
+    return '<button type="button" class="color-swatch ' + (ui.pendingEventColor===c?'selected':'') + '" style="background:' + c + '" onclick="App.pickEventColor(\'' + c + '\', this)"></button>';
+  }).join('');
+  var form = ui.showEventForm
+    ? ('<div class="new-label-form">' +
+        '<input id="newEventTitle" type="text" placeholder="' + t('eventTitlePlaceholder') + '">' +
+        '<input id="newEventTime" type="time">' +
+        '<div class="color-row">' + colorSwatches + '</div>' +
+        '<label class="cluster-toggle" style="margin-left:0"><input type="checkbox" id="newEventReminder" checked> ' + t('reminderCheckbox') + '</label>' +
+        '<button class="btn small" onclick="App.addEvent()">' + t('saveBtn') + '</button>' +
+      '</div>')
+    : '';
+  return '<div class="day-events">' +
+    '<div class="cal-header">' +
+      '<h3 class="day-events-title">' + t('eventsOnDay', { d: fmtDate(d) }) + '</h3>' +
+      '<button class="btn ghost small" onclick="App.toggleEventForm()">' + (ui.showEventForm ? t('cancelBtn') : t('addEventBtn')) + '</button>' +
+    '</div>' +
+    list + form +
+  '</div>';
+}
+function renderUpcomingEventsPanel(){
+  var t = todayStr();
+  var upcoming = state.events.filter(function(e){ return e.date >= t; }).slice().sort(function(a,b){
+    var da = a.date + (a.time || '00:00'), db = b.date + (b.time || '00:00');
+    return da < db ? -1 : (da > db ? 1 : 0);
+  });
+  var body = upcoming.length ? upcoming.map(function(e){
+    return '<div class="task-row">' +
+      '<div class="task-left"><span class="task-text">' + escapeHtml(e.title) + '</span></div>' +
+      '<div class="task-right">' +
+        '<span class="due-chip mono">' + fmtDate(e.date) + (e.time ? (', ' + e.time) : '') + '</span>' +
+        '<button class="icon-btn" title="Erinnerung umschalten" onclick="App.toggleEventReminder(\'' + e.id + '\')">' + (e.reminderEnabled ? '🔔' : '🔕') + '</button>' +
+        '<button class="icon-btn" title="Löschen" onclick="App.deleteEvent(\'' + e.id + '\')">✕</button>' +
+      '</div>' +
+    '</div>';
+  }).join('') : '<div class="empty-hint">Keine anstehenden Termine.</div>';
+  return '<section class="panel events-panel"><h2>Anstehende Ereignisse</h2><div class="task-list">' + body + '</div></section>';
+}
+function renderHistoryPanel(){
+  var completed = state.tasks.filter(function(x){ return x.done; }).slice().sort(function(a,b){
+    var da = a.doneDate || a.due, db = b.doneDate || b.due;
+    return da < db ? 1 : (da > db ? -1 : 0);
+  });
+  var toggleLabel = ui.historyExpanded ? t('historyHide') : t('historyShow', { n: completed.length });
+  var body = '';
+  if (ui.historyExpanded){
+    body = completed.length ? completed.map(function(task){
+      var l = labelById(task.labelId);
+      return '<div class="task-row done">' +
+        '<div class="task-left"><span class="task-text">' + escapeHtml(task.text) + '</span></div>' +
+        '<div class="task-right">' +
+          '<span class="label-chip" style="background:' + l.color + '22;color:' + l.color + '">' + escapeHtml(labelDisplayName(l)) + '</span>' +
+          '<span class="due-chip mono">' + t('doneOn', { d: fmtDate(task.doneDate || task.due) }) + '</span>' +
+          '<button class="icon-btn" title="' + t('deleteBtn') + '" onclick="App.deleteTask(\'' + task.id + '\')">✕</button>' +
+        '</div>' +
+      '</div>';
+    }).join('') : '<div class="empty-hint">' + t('emptyHistory') + '</div>';
+  }
+  return '<section class="panel history-panel">' +
+    '<div class="cal-header"><h2>' + t('historyTitle') + '</h2>' +
+      '<button class="btn ghost small" onclick="App.toggleHistory()">' + toggleLabel + '</button>' +
+    '</div>' +
+    body +
+  '</section>';
+}
+function renderLabelPanel(){
+  var toggleLabel = ui.labelsExpanded ? t('cancelBtn') : t('manageLabelsBtn');
+  var body;
+  if (ui.labelsExpanded){
+    var rows = state.labels.map(function(l){
+      var actions = (l.id !== 'unlabeled')
+        ? ('<button class="icon-btn" title="' + t('renameTitle') + '" onclick="App.renameLabel(\'' + l.id + '\')">✎</button><button class="icon-btn" title="' + t('deleteBtn') + '" onclick="App.deleteLabel(\'' + l.id + '\')">✕</button>')
+        : '<span class="mono" style="color:var(--muted)">' + t('labelDefault') + '</span>';
+      return '<div class="label-row"><div class="label-left"><span class="dot" style="background:' + l.color + '"></span><span>' + escapeHtml(labelDisplayName(l)) + '</span></div><div class="label-right">' + actions + '</div></div>';
+    }).join('');
+    var colorSwatches = LABEL_COLORS.map(function(c){
+      return '<button type="button" class="color-swatch ' + (ui.pendingLabelColor===c?'selected':'') + '" style="background:' + c + '" onclick="App.pickLabelColor(\'' + c + '\', this)"></button>';
+    }).join('');
+    body = '<div class="label-list">' + rows + '</div>' +
+      '<div class="new-label-form" style="margin-top:10px;">' +
+        '<input id="newLabelNameStandalone" type="text" placeholder="' + t('labelNamePlaceholder') + '">' +
+        '<div class="color-row">' + colorSwatches + '</div>' +
+        '<button class="btn small" onclick="App.saveNewLabelStandalone()">' + t('saveLabelBtn') + '</button>' +
+      '</div>';
+  } else {
+    body = '<div class="chip-row">' + state.labels.map(function(l){
+      return '<span class="label-chip" style="background:' + l.color + '22;color:' + l.color + '">' + escapeHtml(labelDisplayName(l)) + '</span>';
+    }).join('') + '</div>';
+  }
+  return '<section class="panel label-panel">' +
+    '<div class="cal-header"><h2>' + t('labelsTitle') + '</h2>' +
+      '<button class="btn ghost small" onclick="App.toggleLabelsPanel()">' + toggleLabel + '</button>' +
+    '</div>' +
+    body +
+  '</section>';
+}
+function renderAnpassungPanel(){
+  var palettesHtml = Object.keys(PALETTES).map(function(key){
+    var p = PALETTES[key];
+    var locked = state.maxGrowthEver < p.unlock;
+    var active = state.customization.palette===key;
+    var outline = active ? 'outline:2px solid var(--parchment);outline-offset:2px;' : '';
+    var label = t('pal_' + key) + (locked ? t('lockedSuffix', { n: p.unlock }) : '');
+    return '<button class="swatch-btn ' + (locked?'locked':'') + '" ' + (locked?'disabled':'') + ' title="' + label + '" style="background:' + p.body + ';' + outline + '" onclick="App.setPalette(\'' + key + '\')"></button>';
+  }).join('');
+  var podesteHtml = Object.keys(PODESTE).map(function(key){
+    var p = PODESTE[key];
+    var locked = state.maxGrowthEver < p.unlock;
+    var active = state.customization.podest===key;
+    return '<button class="chip-btn ' + (active?'active':'') + '" ' + (locked?'disabled':'') + ' onclick="App.setPodest(\'' + key + '\')">' + t('podest_' + key) + (locked ? t('lockedSuffix', { n: p.unlock }) : '') + '</button>';
+  }).join('');
+  var maneUnlocked = state.maxGrowthEver >= MANE_UNLOCK_GROWTH;
+  var maneHtml;
+  if (!maneUnlocked){
+    maneHtml = '<div class="hint-text">' + t('maneLockedHint', { n: MANE_UNLOCK_GROWTH }) + '</div>';
+  } else {
+    maneHtml = '<div class="swatch-row">' + MANE_COLORS.map(function(c){
+      var active = (state.customization.maneColor || MANE_COLORS[0]) === c;
+      var outline = active ? 'outline:2px solid var(--parchment);outline-offset:2px;' : '';
+      return '<button class="swatch-btn" style="background:' + c + ';' + outline + '" onclick="App.setManeColor(\'' + c + '\')"></button>';
+    }).join('') + '</div>';
+  }
+  return '<section class="panel anpassung-panel">' +
+    '<h2>' + t('anpassungTitle') + '</h2>' +
+    '<div class="sub-label">' + t('nameSub') + '</div>' +
+    '<input type="text" class="creature-name-input" maxlength="24" placeholder="' + t('namePlaceholder') + '" value="' + escapeHtml(state.creatureName || '') + '" onchange="App.setCreatureName(this.value)">' +
+    '<div class="sub-label">' + t('coatSub') + '</div>' +
+    '<div class="swatch-row">' + palettesHtml + '</div>' +
+    '<div class="sub-label">' + t('maneSub') + '</div>' +
+    maneHtml +
+    '<div class="sub-label">' + t('podestSub') + '</div>' +
+    '<div class="chip-row">' + podesteHtml + '</div>' +
+    '<div class="sub-label">' + t('tailSub') + '</div>' +
+    '<div class="chip-row">' + Object.keys(TAIL_STYLES).map(function(key){
+      var s = TAIL_STYLES[key];
+      var locked = state.maxGrowthEver < s.unlock;
+      var active = (state.customization.tailStyle || 'classic') === key;
+      return '<button class="chip-btn ' + (active?'active':'') + '" ' + (locked?'disabled':'') + ' onclick="App.setTailStyle(\'' + key + '\')">' + t('tail_' + key) + (locked ? t('lockedSuffix', { n: s.unlock }) : '') + '</button>';
+    }).join('') + '</div>' +
+    '<div class="sub-label">' + t('reactionSub') + '</div>' +
+    '<div class="chip-row">' + Object.keys(EXTRA_REACTIONS).map(function(key){
+      var e = EXTRA_REACTIONS[key];
+      var locked = state.maxGrowthEver < e.unlock;
+      var active = (state.customization.extraReaction || 'none') === key;
+      return '<button class="chip-btn ' + (active?'active':'') + '" ' + (locked?'disabled':'') + ' onclick="App.setExtraReaction(\'' + key + '\')">' + t('reaction_' + key) + (locked ? t('lockedSuffix', { n: e.unlock }) : '') + '</button>';
+    }).join('') + '</div>' +
+    '<div class="sub-label">' + t('treeSub', { n: TREE_UNLOCK_COMPLETED }) + '</div>' +
+    '<div class="chip-row">' + Object.keys(TREE_POSITIONS).map(function(key){
+      var locked = (state.totalCompleted || 0) < TREE_UNLOCK_COMPLETED;
+      var active = (state.customization.treePosition || 'off') === key;
+      return '<button class="chip-btn ' + (active?'active':'') + '" ' + (locked?'disabled':'') + ' onclick="App.setTreePosition(\'' + key + '\')">' + t('tree_' + key) + '</button>';
+    }).join('') + (((state.totalCompleted || 0) < TREE_UNLOCK_COMPLETED) ? ('<div class="hint-text">🔒 ' + t('treeLockedHint', { n: TREE_UNLOCK_COMPLETED, c: (state.totalCompleted||0) }) + '</div>') : '') + '</div>' +
+  '</section>';
+}
+function renderErinnerungPanel(){
+  var r = state.reminder;
+  var supported = ('Notification' in window);
+  var permission = supported ? Notification.permission : 'unsupported';
+  return '<section class="panel erinnerung-panel">' +
+    '<h2>' + t('erinnerungenTitle') + '</h2>' +
+    '<label class="switch-row"><input type="checkbox" ' + (r.enabled?'checked':'') + ' onchange="App.toggleReminderEnabled(this.checked)"> ' + t('dailyReminderLabel') + ' <input type="time" value="' + r.time + '" onchange="App.setReminderTime(this.value)" style="margin-left:6px"></label>' +
+    '<label class="switch-row"><input type="checkbox" ' + (r.warnings?'checked':'') + ' onchange="App.toggleWarnings(this.checked)"> ' + t('warningsLabel') + '</label>' +
+    '<label class="switch-row"><input type="checkbox" ' + (r.motivational?'checked':'') + ' onchange="App.toggleMotivational(this.checked)"> ' + t('motivationalLabel') + '</label>' +
+    '<button class="btn ghost" onclick="App.requestNotifPermission()">' + t('allowNotifBtn') + (permission==='granted'?' ✓':'') + '</button>' +
+    '<p class="hint-text">' + t('erinnerungenHint') + '</p>' +
+    '<div class="sub-label">' + t('languageSub') + '</div>' +
+    '<div class="lang-row">' +
+      '<button class="chip-btn ' + (state.language==='de'?'active':'') + '" onclick="App.setLanguage(\'de\')">Deutsch</button>' +
+      '<button class="chip-btn ' + (state.language==='en'?'active':'') + '" onclick="App.setLanguage(\'en\')">English</button>' +
+    '</div>' +
+  '</section>';
+}
+function renderFooter(){
+  return '<footer class="foot-note">' + t('footNote') + '</footer>';
+}
+function buildAppHtml(){
+  return '<div class="app-inner">' +
+    safeRun(renderHeader) +
+    safeRun(renderNotices) +
+    safeRun(renderReminderBanner) +
+    '<div class="grid-top">' + safeRun(renderSavanne) + safeRun(renderAufgabenPanel) + '</div>' +
+    safeRun(renderLabelPanel) +
+    safeRun(renderKalenderPanel) +
+    safeRun(renderUpcomingEventsPanel) +
+    safeRun(renderHistoryPanel) +
+    safeRun(renderFooter) +
+    (ui.settingsOpen ? safeRun(renderSettingsOverlay) : '') +
+  '</div>';
+}
+function renderSettingsOverlay(){
+  return '<div class="settings-overlay" onclick="if(event.target===this) App.toggleSettings()">' +
+    '<div class="settings-modal">' +
+      '<div class="settings-modal-header"><h2>' + t('settingsTitle') + '</h2><button class="icon-btn" title="' + t('closeBtn') + '" onclick="App.toggleSettings()" style="font-size:1.1rem;">✕</button></div>' +
+      safeRun(renderAnpassungPanel) +
+      safeRun(renderErinnerungPanel) +
+      safeRun(renderDataPanel) +
+    '</div>' +
+  '</div>';
+}
+function renderDataPanel(){
+  return '<section class="panel data-panel">' +
+    '<h2>' + t('dataTitle') + '</h2>' +
+    '<div class="chip-row">' +
+      '<button class="btn ghost" onclick="App.exportData()">' + t('exportBtn') + '</button>' +
+      '<label class="btn ghost file-label">' + t('importBtn') + '<input type="file" accept="application/json" onchange="App.importData(this.files[0])" hidden></label>' +
+    '</div>' +
+  '</section>';
+}
+
+// ---------- Lebenszyklus ----------
+function render(){ document.getElementById('app').innerHTML = buildAppHtml(); }
+function persist(){ loewenStorage.set(STORAGE_KEY, JSON.stringify(state)); }
+function saveAndRender(){ render(); persist(); }
+
+function init(){
+  loewenStorage.get(STORAGE_KEY).then(function(raw){
+    var loaded = null;
+    try{ loaded = raw ? JSON.parse(raw) : null; }catch(e){ loaded = null; }
+    state = migrateState(loaded || {});
+    ui = {
+      selectedLabelId: (state.labels.filter(function(l){ return l.id!=='unlabeled'; })[0] || state.labels[0]).id,
+      pendingLabelColor: LABEL_COLORS[2],
+      historyExpanded: false,
+      settingsOpen: false,
+      labelsExpanded: false,
+      showEventForm: false
+    };
+    checkFeedingStatus();
+    render();
+    persist();
+    rescheduleDailyReminder();
+    rescheduleNeglectNotification();
+    state.tasks.forEach(function(t){ if (!t.done) scheduleTaskNotification(t); });
+    state.events.forEach(function(e){ scheduleEventNotification(e); });
+    document.addEventListener('mousemove', eyeParallax);
+    startWander();
+    setInterval(function(){
+      if (checkFeedingStatus()) saveAndRender();
+    }, 60000);
+  });
+}
+
+window.App = {
+  addTaskFromForm: addTaskFromForm, completeTask: completeTask, deleteTask: deleteTask,
+  onLabelSelectChange: onLabelSelectChange, onDueSelectChange: onDueSelectChange,
+  pickLabelColor: pickLabelColor, saveNewLabel: saveNewLabel, pickEventColor: pickEventColor,
+  renameLabel: renameLabel, deleteLabel: deleteLabel,
+  setFilter: setFilter, toggleCluster: toggleCluster, toggleHistory: toggleHistory, toggleSettings: toggleSettings, toggleLabelsPanel: toggleLabelsPanel, saveNewLabelStandalone: saveNewLabelStandalone,
+  selectCalendarDate: selectCalendarDate, shiftMonth: shiftMonth,
+  toggleEventForm: toggleEventForm, addEvent: addEvent, deleteEvent: deleteEvent, toggleEventReminder: toggleEventReminder,
+  setPalette: setPalette, setPodest: setPodest, setManeColor: setManeColor, setExtraReaction: setExtraReaction, setTailStyle: setTailStyle, setTreePosition: setTreePosition, setLanguage: setLanguage,
+  toggleReminderEnabled: toggleReminderEnabled, setReminderTime: setReminderTime, setCreatureName: setCreatureName,
+  toggleWarnings: toggleWarnings, toggleMotivational: toggleMotivational,
+  requestNotifPermission: requestNotifPermission, dismissReminder: dismissReminder,
+  exportData: exportData, importData: importData, setPhoto: setPhoto
+};
+
+document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+</body>
+</html>
